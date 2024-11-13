@@ -6,7 +6,8 @@
  * @author Calum Breen
  * @author Emilia Hildebrandt
  * @author Tiernan O'Shaughnessy
- * @author Jordi LASTNAME
+ * @author Jordi Roca
+ * @author Bengisu Fansa
 
  * @date   11 November 2024
  *********************************************************************/
@@ -34,6 +35,8 @@ typedef struct DoubleLinkedList {
 // consisting of only a head and tail
 DoubleLinkedList* createDoubleLinkedList() {
 
+	// Pre: None
+	
 	// allocating memory for double linked list
 	DoubleLinkedList* doubleLinkedList = (DoubleLinkedList*) malloc(sizeof(DoubleLinkedList));
 
@@ -51,7 +54,32 @@ DoubleLinkedList* createDoubleLinkedList() {
 	doubleLinkedList -> head = head;
 	doubleLinkedList -> tail = tail;
 
+	// Post: Empty double linked list is created
 	return doubleLinkedList;
 }
 	
+// delete a list, including all its elements
+DoubleLinkedList* deleteDoubleLinkedList() {
+
+	// Pre: valid double linked list exists
+	if (list == NULL || list->head == NULL) {
+		// pre condition not met
+		printf("Error: Invalid double linked list\n");
+		return NULL;
+	}
+
+	// go through the list and delete each node
+	Node* current = list->head;
+	while (current != NULL) {
+		Node* next = current->successor;
+		free(current);
+		current = next;
+	}
+
+	// freeing the list structure
+	free(list);
+
+	// Post: The entire list is deleted
+	return NULL;
+}
 
