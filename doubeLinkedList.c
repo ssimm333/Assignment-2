@@ -6,7 +6,8 @@
  * @author Calum Breen
  * @author Emilia Hildebrandt
  * @author Tiernan O'Shaughnessy
- * @author Jordi LASTNAME
+ * @author Jordi Roca
+ * @author Bengisu Fansa
 
  * @date   11 November 2024
  *********************************************************************/
