@@ -1,6 +1,6 @@
 /*****************************************************************//**
- * @file   main.c
- * @brief
+ * @file	main.c
+ * @brief	main file used to implement the text menu driven application
  *
  * @author Stanislav Simanovich
  * @author Calum Breen
