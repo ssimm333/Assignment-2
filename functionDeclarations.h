@@ -8,4 +8,5 @@ DoubleLinkedList* gotoHead(DoubleLinkedList* list);
 DoubleLinkedList* gotoTail(DoubleLinkedList* list);
 DoubleLinkedList* insertAfter(newdata);
 DoubleLinkedList* insertBefore(newdata);
-DoubleLinkedList* deleteCurrent();
+DoubleLinkedList* deleteCurrentNode(DoubleLinkedList* list);
+
