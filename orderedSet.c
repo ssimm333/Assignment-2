@@ -19,8 +19,16 @@
 
 
 // set Intersection
-// Create intersection set
+// Create interset
 // for each node in set1
 //		for each node in set2
 //			if set1i == set2i
-//				add set1i to intset
+//				add set1i to interset
+
+
+// set Union
+// Create  uniset
+// for each node in set1
+//		for each node in set2
+//			if set1i =! set2i
+//				add set1i to uniset
