@@ -1,9 +1,21 @@
 #pragma once
-#include "doubleLinkedList.c"
 
-int data;
-struct Node;
-struct List;
+// Typedef for data type
+typedef int data;
+
+// Forward declarations of structs
+typedef struct Node {
+    data d;
+    struct Node* successor;  // Pointer to the next node
+    struct Node* predecessor; // Pointer to the previous node
+} dllNode;
+
+typedef struct List {
+    dllNode* head;    // Pointer to the head node
+    dllNode* tail;    // Pointer to the tail node
+    dllNode* current; // Pointer to the current node
+} DoubleLinkedList;
+
 DoubleLinkedList* createDoubleLinkedList();
 DoubleLinkedList* deleteDoubleLinkedList(DoubleLinkedList* list);
 DoubleLinkedList* getData(DoubleLinkedList* list);
