@@ -24,3 +24,17 @@
 //		for each node in set2
 //			if set1i == set2i
 //				add set1i to intset
+
+ // defining the structure for the double linked list
+typedef struct List {
+	dllNode* head;
+	dllNode* tail;
+	dllNode* current;
+} DoubleLinkedList;
+
+// creates an empty ordered set (list contains no elements
+// and number of elements is set to 0).Make sure that your solution provides
+// an explicit create function.
+DoubleLinkedList* createOrderedSet() {
+	createDoubleLinkedList();
+}
