@@ -16,3 +16,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "functionDeclarations.h"
+
+
+// set Intersection
+// Create intersection set
+// for each node in set1
+//		for each node in set2
+//			if set1i == set2i
+//				add set1i to intset
