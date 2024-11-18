@@ -1,5 +1,9 @@
 #pragma once
 #include "doubleLinkedList.c"
+
+int data;
+struct Node;
+struct List;
 DoubleLinkedList* createDoubleLinkedList();
 DoubleLinkedList* deleteDoubleLinkedList(DoubleLinkedList* list);
 DoubleLinkedList* getData(DoubleLinkedList* list);

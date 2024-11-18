@@ -35,8 +35,6 @@ typedef struct List {
 	dllNode* current;
 } DoubleLinkedList;
 
-
-
 // create a new empty double linked list
 // consisting of only a head and tail
 DoubleLinkedList* createDoubleLinkedList() {
