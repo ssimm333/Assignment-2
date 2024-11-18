@@ -16,6 +16,12 @@ typedef struct List {
     dllNode* current; // Pointer to the current node
 } DoubleLinkedList;
 
+typedef struct orderedIntSet {
+    dllNode* head;
+    dllNode* tail;
+    int size;
+}orderedIntSet;
+
 DoubleLinkedList* createDoubleLinkedList();
 DoubleLinkedList* deleteDoubleLinkedList(DoubleLinkedList* list);
 DoubleLinkedList* getData(DoubleLinkedList* list);
