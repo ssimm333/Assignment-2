@@ -14,3 +14,5 @@ DoubleLinkedList* gotoTail(DoubleLinkedList* list);
 DoubleLinkedList* insertAfter(newdata);
 DoubleLinkedList* insertBefore(newdata);
 DoubleLinkedList* deleteCurrentNode(DoubleLinkedList* list);
+DoubleLinkedList* createOrderedSet();
+
