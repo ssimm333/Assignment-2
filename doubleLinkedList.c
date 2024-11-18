@@ -23,12 +23,13 @@ typedef int data;
 typedef struct Node {
 	data d;
 	struct Node* successor;			// pointer to the next node
+	struct Node* current;			// pointer to current node
 	struct Node* predecessor;		// pointer to the previous node
 } dllNode;
 
 
 // defining the structure for the double linked list
-typedef struct DoubleLinkedList {
+typedef struct List {
 	dllNode* head;
 	dllNode* tail;
 	dllNode* current;

@@ -18,7 +18,7 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="doubeLinkedList.c">
+    <ClCompile Include="doubleLinkedList.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="orderedSet.c">

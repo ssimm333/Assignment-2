@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="doubeLinkedList.c" />
+    <ClCompile Include="doubleLinkedList.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="orderedSet.c" />
   </ItemGroup>
