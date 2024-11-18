@@ -11,57 +11,39 @@
 
  * @date   11 November 2024
  *********************************************************************/
-
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include "functionDeclarations.h"
 
-// defining data type
-typedef int data;
 
-// defining the structure of a node in the double linked list
-typedef struct Node {
-	data d;
-	struct Node* successor;			// pointer to the next node
-	struct Node* current;			// pointer to current node
-	struct Node* predecessor;		// pointer to the previous node
-} dllNode;
-
-
-// defining the structure for the double linked list
-typedef struct List {
-	dllNode* head;
-	dllNode* tail;
-	dllNode* current;
-} DoubleLinkedList;
-
-// create a new empty double linked list
-// consisting of only a head and tail
+ // create a new empty double linked list
+ // consisting of only a head and tail
 DoubleLinkedList* createDoubleLinkedList() {
 
 	// Pre: None
-	
+
 	// allocating memory for double linked list
-	DoubleLinkedList* doubleLinkedList = (DoubleLinkedList*) malloc(sizeof(DoubleLinkedList));
+	DoubleLinkedList* doubleLinkedList = (DoubleLinkedList*)malloc(sizeof(DoubleLinkedList));
 
 	// allocating memory for the head and tail node
-	dllNode* head = (dllNode*) malloc(sizeof(dllNode));
-	dllNode* tail = (dllNode*) malloc(sizeof(dllNode));
+	dllNode* head = (dllNode*)malloc(sizeof(dllNode));
+	dllNode* tail = (dllNode*)malloc(sizeof(dllNode));
 
 	// initialising head and tail nodes
-	head -> predecessor = NULL;
-	head -> successor = tail;
-	tail-> predecessor = head;
-	tail-> successor = NULL;
+	head->predecessor = NULL;
+	head->successor = tail;
+	tail->predecessor = head;
+	tail->successor = NULL;
 
 	// assigning head and tail nodes to the double linked list
-	doubleLinkedList -> head = head;
-	doubleLinkedList -> tail = tail;
+	doubleLinkedList->head = head;
+	doubleLinkedList->tail = tail;
 
 	// Post: Empty double linked list is created
 	return doubleLinkedList;
 }
-	
+
 // delete a list, including all its elements
 DoubleLinkedList* deleteDoubleLinkedList(DoubleLinkedList* list) {
 
@@ -89,7 +71,7 @@ DoubleLinkedList* deleteDoubleLinkedList(DoubleLinkedList* list) {
 
 // returns the data associated with current node
 DoubleLinkedList* getData(DoubleLinkedList* list) {
-	
+
 	// Pre: valid double linked list exists
 	if (list == NULL || list->head == NULL) {
 		printf("Error: Invalid double linked list\n");
@@ -173,7 +155,7 @@ DoubleLinkedList* insertAfter(DoubleLinkedList* list, data newdata) {
 
 	// initialising new node
 	newNode->d = newdata;
-	
+
 	// setting current to new node
 	list->current = newNode;
 
