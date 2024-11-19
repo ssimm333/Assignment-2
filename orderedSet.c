@@ -31,13 +31,39 @@ orderedIntSet* createOrderedIntSet() {
 }
 
 
-// add set1i to interset
+
 // set Intersection
-// Create interset
-// for each node in set1
-//		for each node in set2
-//			if set1i == set2i
-//				add set1i to intset
+DoubleLinkedList* setIntersection(DoubleLinkedList* s1, DoubleLinkedList* s2) {
+	DoubleLinkedList* interset = createDoubleLinkedList();// Create interset
+	dllNode* current1 = s1->head;		//Find head of set 1
+	
+	
+	// for each node in set1
+	while (current1 != NULL) { 
+		dllNode* next1 = current1->successor;
+
+		//Find head of set 2
+		dllNode* current2 = s2->head;		
+		// For each node in set 2
+		while (current2 != NULL) {
+			dllNode* next2 = current2->successor;
+			
+			// If set1i == set2i
+			if (current1->d == current2->d) {
+				
+				// add node i to interset
+				interset = insertAfter(interset, current1->d);
+			}
+			current2 = next2;
+		}
+		current1 = next1;
+
+	}
+	return interset;
+}
+
+
+
 
 // set Union
 // Create  uniset
