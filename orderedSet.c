@@ -34,30 +34,34 @@ orderedIntSet* createOrderedIntSet() {
 
 // set Intersection
 DoubleLinkedList* setIntersection(DoubleLinkedList* s1, DoubleLinkedList* s2) {
-	DoubleLinkedList* interset = createDoubleLinkedList();// Create interset
-	dllNode* current1 = s1->head;		//Find head of set 1
 	
+	// Create interset
+	DoubleLinkedList* interset = createDoubleLinkedList();
+	//Find first element of set 1
+	s1 = gotoHead(s1);
+	s1 = gotoNextNode(s1);
 	
 	// for each node in set1
-	while (current1 != NULL) { 
-		dllNode* next1 = current1->successor;
+	while (s1->current->successor != NULL) {
 
-		//Find head of set 2
-		dllNode* current2 = s2->head;		
+		//Find first element of set 2
+		s2 = gotoHead(s2);
+		s2 = gotoNextNode(s2);
+
 		// For each node in set 2
-		while (current2 != NULL) {
-			dllNode* next2 = current2->successor;
+		while (s2->current->successor != NULL) {
 			
 			// If set1i == set2i
-			if (current1->d == current2->d) {
+			if (s1->current->d == s2->current->d) {
 				
 				// add node i to interset
-				interset = insertAfter(interset, current1->d);
+				interset = insertAfter(interset, s2->current->d);
 			}
-			current2 = next2;
-		}
-		current1 = next1;
 
+			s2 = gotoNextNode(s2);
+		}
+		
+		s1 = gotoNextNode(s1);
 	}
 	return interset;
 }
@@ -66,8 +70,60 @@ DoubleLinkedList* setIntersection(DoubleLinkedList* s1, DoubleLinkedList* s2) {
 
 
 // set Union
-// Create  uniset
-// for each node in set1
-//		for each node in set2
-//			if set1i =! set2i
-//				add set1i to uniset
+DoubleLinkedList* setUnion(DoubleLinkedList* s1, DoubleLinkedList* s2) {
+	
+	// Create uniset
+	DoubleLinkedList* uniset = createDoubleLinkedList();
+
+	//Find first element of set 1
+	s1 = gotoHead(s1);
+	s1 = gotoNextNode(s1);
+
+	//for each node in set1
+	while (s1->current->successor != NULL){
+		
+		// Add node to uniset
+		uniset = insertAfter(uniset, s1->current->d);
+
+		s1 = gotoNextNode(s1);
+	}
+
+
+
+	// Find first element of set2
+	s2 = gotoHead(s2);
+	s2 = gotoNextNode(s2);
+
+	// for each node in set2
+	while (s2->current->successor != NULL) {
+		
+
+		// for each node in uniset
+		while (uniset->current->successor != NULL) {
+
+			// if uniseti < set2i
+			if (uniset->current->d < s2->current->d) {
+
+				// go to next node
+				uniset = gotoNextNode(uniset);
+
+			// if uniseti == set2i
+			} else if (uniset->current->d == s2->current->d) {
+
+				// go to tail
+				uniset = gotoTail(uniset);
+
+			// if uniseti > set2i
+			} else {
+
+				//add node before current and go to tail
+				uniset = insertBefore(uniset, s2->current->d);
+				uniset = gotoTail(uniset);
+			}
+		}
+
+		s2 = gotoNextNode(s2);
+	}
+
+	return uniset;
+}
