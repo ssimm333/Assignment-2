@@ -18,12 +18,35 @@
 #include "functionDeclarations.h"
 
 int main() {
+	// main menu
+	printf("\n");
+	printf("\n1) Create an empty Ordered Set.\n");
+	printf("\n2) Delete the current Ordered Set.\n");
+	printf("\n3) Add Elements to Ordered Set.\n");
+	printf("\n4) Remove elements from Ordered Set.\n");
+	printf("\n5) Set Intersection.\n");
+	printf("\n6) Set Union.\n");
+	printf("\n7) Set Difference.\n");
+	printf("\n8) Terminate Program..\n");
+
+	// getting user choice
+	int choice;
+	printf("\nEnter your choice: ");
+	scanf_s("%d", &choice);
+
+	switch (choice) {
 	
+	case 1:
+
 	// 1) create an empty Ordered Set
 	//		prompts user to enter the index for the new array in SetsArray
 
+	case 2:
+
 	// 2) delete the current Ordered Set
 	// 		prompts user to enter the index for the new array in SetsArray
+
+	case 3:
 
 	// 3) add Elements to Ordered Set
 	//		prompts user to enter the index in SetsArray of the set to be used
@@ -39,8 +62,10 @@ int main() {
 	//		
 	//		Finally, it will call printToStdout() to print the resulting set
 	//		(after the last element has been added) to stdout to the screen.
-			
-	// 4)  remove elements from Ordered Set
+
+	case 4:
+
+	// 4) Remove elements from Ordered Set
 	//		this function first prompts the user to enter the index in SetsArray of the set to be used
 	//		(that is, it reads it from stdin).
 	//		
@@ -51,11 +76,16 @@ int main() {
 	//		removeElemenmt() returned NUMBER REMOVED or NUMBER NOT IN SET.At the end, it will call 
 	//		printToStdout() to print the resulting set(after the last element has been removed) to stdout.
 
+
+	case 5:
+
 	// 5) Set Intersection. 
 	//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
 	//		
 	//		Then it calls function setIntersection(s1, s2) to obtain the intersetion of sets i1 and i2 
 	//		and stores the resulting set at index i3.Finally, it prints the resulting set to stdout.
+
+	case 6:
 
 	// 6) Set Union
 	//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
@@ -65,6 +95,8 @@ int main() {
 	// 
 	//		Finally, it prints the resulting set to stdout.
 
+	case 7:
+
 	// 7) Set Difference. 
 	//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
 	// 
@@ -73,6 +105,19 @@ int main() {
 	// 
 	//		Finally, it prints the resulting set to stdout.
 
+	case 8:
+		
 	// 8) Terminate the program
+		return EXIT_SUCCESS;
+	}
+
+
+
+			
+	
+
+
+
+	
 	return EXIT_SUCCESS;
 }
