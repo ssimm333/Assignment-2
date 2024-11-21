@@ -17,8 +17,24 @@
 #include "functionDeclarations.h"
 
 
- // create a new empty double linked list
- // consisting of only a head and tail
+// defining the structure of a node in the double linked list
+typedef struct Node {
+    data d;
+	struct Node* successor;			// pointer to the next node
+	struct Node* current;			// pointer to current node
+	struct Node* predecessor;		// pointer to the previous node
+} dllNode;
+
+
+// defining the structure for the double linked list
+typedef struct List {
+	dllNode* head;
+	dllNode* tail;
+	dllNode* current;
+} DoubleLinkedList;
+
+// create a new empty double linked list
+// consisting of only a head and tail
 DoubleLinkedList* createDoubleLinkedList() {
 
 	// Pre: None
