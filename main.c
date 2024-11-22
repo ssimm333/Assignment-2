@@ -25,6 +25,8 @@ int main() {
 		SetsArray[i] = NULL;
 	}
 
+	int choice;
+
 	// want this application to run until the user terminates it, hence a do while loop
 	do {
 		// print main menu
@@ -38,21 +40,9 @@ int main() {
 		printf("\n7) Set Difference.\n");
 		printf("\n8) Terminate Program..\n");
 
-		// function choice
-		int choice;
+		// choosing a function
 		printf("\nEnter your choice: ");
-		scanf_s("%d", &choice);
-
-		// is choice valid? (1-8)
-		// no
-		if (choice < 1 || choice > 8) {
-			printf("\nInvalid choice.\n");
-			break;
-		} 
-		// yes
-		else {
-			continue;
-		}
+		scanf_s("%i", &choice);
 
 		// index choice
 		int index;
@@ -60,94 +50,117 @@ int main() {
 		// switch statement
 		switch (choice) {
 
-		case 1:
-			// 1) create an empty Ordered Set
-	
-			// prompts user to enter the index for the new array in SetsArray
-			printf("\nEnter the index for the new array in SetsArray: ");
-			// read index
-			scanf_s("%d", &index);
+			case 1:
+				// 1) create an empty Ordered Set
 
-			// create an empty Ordered Set at index in SetsArray specified by user
-			// if index is NULL, create an empty Ordered Set
-			if (SetsArray[index] == NULL) {
-				SetsArray[index] = createOrderedIntSet();
-				printf("\nEmpty Ordered Set created at index %d in SetsArray.\n", index);
-			} else {
-				// if index is not NULL, print error
-				printf("\nEmpty Ordered Set already exists at index %d in SetsArray.\n", index);
-			}
-			break;
+				// prompts user to enter the index for the new array in SetsArray
+				printf("\nEnter the index for the new array in SetsArray: ");
+				// read index
+				scanf_s("%d", &index);
 
-		case 2:
+				// create an empty Ordered Set at index in SetsArray specified by user
+				// if index is NULL, create an empty Ordered Set
+				if (SetsArray[index] == NULL) {
+					SetsArray[index] = createOrderedIntSet();
+					printf("\nEmpty Ordered Set created at index %d in SetsArray.\n", index);
+				}
+				else {
+					// if index is not NULL, print error
+					printf("\nEmpty Ordered Set already exists at index %d in SetsArray.\n", index);
+				}
+				break;
 
-			// 2) delete the current Ordered Set
-			// 		prompts user to enter the index for the new array in SetsArray
+			case 2:
 
-		case 3:
+				// 2) delete the current Ordered Set
+				// 		prompts user to enter the index for the new array in SetsArray
+				break;
 
-			// 3) add Elements to Ordered Set
-			//		prompts user to enter the index in SetsArray of the set to be used
-			//		(reads from stdin).
-			// 
-			//		Then, reads numbers continunously form stdin and uses the function 
-			//		addElement() to attempt to add the number to the Ordered Set.
-			//		
-			//		This process will stop if a negative number is entered. 
-			//		
-			//		For each numberm it will report whether addELement() returned NUMBER_ADDED
-			//		or NUMBER_ALREADY_IN_SET. 
-			//		
-			//		Finally, it will call printToStdout() to print the resulting set
-			//		(after the last element has been added) to stdout to the screen.
+			case 3:
 
-		case 4:
+				// 3) add Elements to Ordered Set
+				//		prompts user to enter the index in SetsArray of the set to be used
+				//		(reads from stdin).
+				// 
+				//		Then, reads numbers continunously form stdin and uses the function 
+				//		addElement() to attempt to add the number to the Ordered Set.
+				//		
+				//		This process will stop if a negative number is entered. 
+				//		
+				//		For each numberm it will report whether addELement() returned NUMBER_ADDED
+				//		or NUMBER_ALREADY_IN_SET. 
+				//		
+				//		Finally, it will call printToStdout() to print the resulting set
+				//		(after the last element has been added) to stdout to the screen.
 
-			// 4) Remove elements from Ordered Set
-			//		this function first prompts the user to enter the index in SetsArray of the set to be used
-			//		(that is, it reads it from stdin).
-			//		
-			//		Then it reads numbers continously from stdin and uses function removeElement() to attempt 
-			//		to remove the number from the Ordered Set.
-			// 
-			//		This process will stop if a negative number is entered.For each number it will report whether 
-			//		removeElemenmt() returned NUMBER REMOVED or NUMBER NOT IN SET.At the end, it will call 
-			//		printToStdout() to print the resulting set(after the last element has been removed) to stdout.
+			case 4:
 
+				// 4) Remove elements from Ordered Set
+				//		this function first prompts the user to enter the index in SetsArray of the set to be used
+				//		(that is, it reads it from stdin).
+				//		
+				//		Then it reads numbers continously from stdin and uses function removeElement() to attempt 
+				//		to remove the number from the Ordered Set.
+				// 
+				//		This process will stop if a negative number is entered.For each number it will report whether 
+				//		removeElemenmt() returned NUMBER REMOVED or NUMBER NOT IN SET.At the end, it will call 
+				//		printToStdout() to print the resulting set(after the last element has been removed) to stdout.
 
-		case 5:
+				break;
 
-			// 5) Set Intersection. 
-			//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
-			//		
-			//		Then it calls function setIntersection(s1, s2) to obtain the intersetion of sets i1 and i2 
-			//		and stores the resulting set at index i3.Finally, it prints the resulting set to stdout.
+			case 5:
 
-		case 6:
+				// 5) Set Intersection. 
+				//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
+				//		
+				//		Then it calls function setIntersection(s1, s2) to obtain the intersetion of sets i1 and i2 
+				//		and stores the resulting set at index i3.Finally, it prints the resulting set to stdout.
+				
+				break;
 
-			// 6) Set Union
-			//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
-			// 
-			//		Then it calls function setUnion(s1, s2) to obtain the union of sets i1 and i2 and stores 
-			//		the resulting set at index i3.
-			// 
-			//		Finally, it prints the resulting set to stdout.
+			case 6:
 
-		case 7:
+				// 6) Set Union
+				//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
+				// 
+				//		Then it calls function setUnion(s1, s2) to obtain the union of sets i1 and i2 and stores 
+				//		the resulting set at index i3.
+				// 
+				//		Finally, it prints the resulting set to stdout.
+				
+				break;
 
-			// 7) Set Difference. 
-			//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
-			// 
-			//		Then it calls function setDifference(s1,s2) to obtain the difference of sets i1 and i2
-			//		(make sure to obtain i1 − i2 and not i2 − ii) and stores the resulting set at index i3.
-			// 
-			//		Finally, it prints the resulting set to stdout.
+			case 7:
 
-		case 8:
+				// 7) Set Difference. 
+				//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
+				// 
+				//		Then it calls function setDifference(s1,s2) to obtain the difference of sets i1 and i2
+				//		(make sure to obtain i1 − i2 and not i2 − ii) and stores the resulting set at index i3.
+				// 
+				//		Finally, it prints the resulting set to stdout.
 
-			// 8) Terminate the program
-			return EXIT_SUCCESS;
+				break;
 
-		}
+			case 8:
+
+				// 8) Terminate the program
+				printf("\nTerminating program\n");
+				return EXIT_SUCCESS;
+
+			
+			default:
+				printf("\nInvalid input\n");
+				break;
+	}
+
+		printf("\nPress Enter to continue\n");
+
+		// clear buffer
+		scanf_s("*c");
+
+		// user input
+		scanf_s("*c");
+
 	} while (EXIT_FAILURE);
 }
