@@ -152,7 +152,7 @@ int main() {
 			default:
 				printf("\nInvalid input\n");
 				break;
-	}
+		}
 
 		printf("\nPress Enter to continue\n");
 
