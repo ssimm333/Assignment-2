@@ -46,7 +46,7 @@ enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
 	newNode->predecessor = NULL;
 
 	// find position to add the element
-	dllNode* current = s->head;
+	//dllNode* current = s->head;
 	while (current && current->d < elem) {
 		current = current->successor;
 	}
@@ -160,4 +160,22 @@ DoubleLinkedList* setUnion(DoubleLinkedList * s1, DoubleLinkedList * s2) {
 		s2 = gotoNextNode(s2);
 	}
 	return uniset;
+}
+
+//Removes the number elem from the set s
+enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
+	// find the element
+	dllNode* current = s->head;
+	while (current != NULL) {
+		if (current->d == elem) {
+			// remove the element
+			current->predecessor->successor = current->successor;
+			current->successor->predecessor = current->predecessor;
+			free(current);
+			s->size--;
+			return NUMBER_REMOVED;
+		}
+		current = current->successor;
+	}
+	return NUMBER_NOT_IN_SET;
 }

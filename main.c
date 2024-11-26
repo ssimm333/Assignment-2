@@ -31,6 +31,7 @@ int main() {
 	do {
 		// print main menu
 		printf("\n");
+		printf("\nChoose from the following:");
 		printf("\n1) Create an empty Ordered Set.\n");
 		printf("\n2) Delete the current Ordered Set.\n");
 		printf("\n3) Add Elements to Ordered Set.\n");
@@ -41,7 +42,7 @@ int main() {
 		printf("\n8) Terminate Program..\n");
 
 		// choosing a function
-		printf("\nEnter your choice: ");
+		printf("\nYour choice: ");
 		scanf_s("%i", &choice);
 
 		// index choice
@@ -54,15 +55,15 @@ int main() {
 				// 1) create an empty Ordered Set
 
 				// prompts user to enter the index for the new array in SetsArray
-				printf("\nEnter the index for the new array in SetsArray: ");
+				printf("\nPlease enter index (0 - 9) for set to be created: ");
 				// read index
 				scanf_s("%d", &index);
-
+				
 				// create an empty Ordered Set at index in SetsArray specified by user
 				// if index is NULL, create an empty Ordered Set
 				if (SetsArray[index] == NULL) {
 					SetsArray[index] = createOrderedIntSet();
-					printf("\nEmpty Ordered Set created at index %d in SetsArray.\n", index);
+					printf("\nSet at index %d created\n", index);
 				}
 				else {
 					// if index is not NULL, print error
