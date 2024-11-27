@@ -28,6 +28,9 @@ orderedIntSet* createOrderedIntSet() {
 	return set;
 }
 
+// deleteOrdered Set
+
+
 enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
 	// checking if its a duplicate
 	dllNode* current = s->head;
@@ -71,6 +74,9 @@ enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
 
 	return NUMBER_ADDED;
 }
+
+
+// remove element
 
 // set Intersection
 DoubleLinkedList* setIntersection(DoubleLinkedList * s1, DoubleLinkedList * s2) {
@@ -197,5 +203,5 @@ orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
 	free(s);
 
 	//The entire ordered set is deleted
-	return NULL;
+	return NULL;
 }

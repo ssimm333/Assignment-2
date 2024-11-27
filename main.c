@@ -27,19 +27,21 @@ int main() {
 
 	int choice;
 
+	// print main menu
+	printf("\n");
+	printf("\nChoose from the following:");
+	printf("\n1) Create an empty Ordered Set.\n");
+	printf("\n2) Delete the current Ordered Set.\n");
+	printf("\n3) Add Elements to Ordered Set.\n");
+	printf("\n4) Remove elements from Ordered Set.\n");
+	printf("\n5) Set Intersection.\n");
+	printf("\n6) Set Union.\n");
+	printf("\n7) Set Difference.\n");
+	printf("\n8) Terminate Program..\n");
+
 	// want this application to run until the user terminates it, hence a do while loop
 	do {
-		// print main menu
-		printf("\n");
-		printf("\nChoose from the following:");
-		printf("\n1) Create an empty Ordered Set.\n");
-		printf("\n2) Delete the current Ordered Set.\n");
-		printf("\n3) Add Elements to Ordered Set.\n");
-		printf("\n4) Remove elements from Ordered Set.\n");
-		printf("\n5) Set Intersection.\n");
-		printf("\n6) Set Union.\n");
-		printf("\n7) Set Difference.\n");
-		printf("\n8) Terminate Program..\n");
+		
 
 		// choosing a function
 		printf("\nYour choice: ");
@@ -47,6 +49,7 @@ int main() {
 
 		// index choice
 		int index;
+		int input;
 
 		// switch statement
 		switch (choice) {
@@ -73,8 +76,14 @@ int main() {
 
 			case 2:
 
-				// 2) delete the current Ordered Set
-				// 		prompts user to enter the index for the new array in SetsArray
+				// 2) delete the current Ordered 
+
+				// prompts user to enter the index for the new array to be deleted
+				printf("\nEnter index (0 - 9) for set to be deleted: ");
+				// read index
+				scanf_s("%d", &index);
+
+				deleteOrderedIntSet(SetsArray[index]);
 				break;
 
 			case 3:
@@ -82,15 +91,26 @@ int main() {
 				// 3) add Elements to Ordered Set
 				//		prompts user to enter the index in SetsArray of the set to be used
 				//		(reads from stdin).
-				// 
+				printf("\nEnter index (0 - 9) for set to be used: ");
+
+				// read index
+				scanf_s("%d", &index);
+
+				
 				//		Then, reads numbers continunously form stdin and uses the function 
 				//		addElement() to attempt to add the number to the Ordered Set.
-				//		
-				//		This process will stop if a negative number is entered. 
-				//		
+				//		This process will stop if a negative number is entered	
+				scanf_s("%d", &input);
+				while (input >= 0) {
+					addElement(SetsArray[index], input);
+					scanf_s("%d", &input);
+
 				//		For each numberm it will report whether addELement() returned NUMBER_ADDED
 				//		or NUMBER_ALREADY_IN_SET. 
-				//		
+				enum addElementResult result = addElement(SetsArray[index], input);
+				}
+				
+				printToStdout(SetsArray[index]);
 				//		Finally, it will call printToStdout() to print the resulting set
 				//		(after the last element has been added) to stdout to the screen.
 
