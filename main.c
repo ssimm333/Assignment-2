@@ -109,24 +109,32 @@ int main() {
 				//		or NUMBER_ALREADY_IN_SET. 
 				enum addElementResult result = addElement(SetsArray[index], input);
 				}
-				
-				printToStdout(SetsArray[index]);
+
 				//		Finally, it will call printToStdout() to print the resulting set
 				//		(after the last element has been added) to stdout to the screen.
+				printToStdout(SetsArray[index]);
+			
 
 			case 4:
 
 				// 4) Remove elements from Ordered Set
 				//		this function first prompts the user to enter the index in SetsArray of the set to be used
 				//		(that is, it reads it from stdin).
-				//		
+				printf("\nEnter index (0 - 9) for set to be used: ");
+				scanf_s("%d", &index);
+				
 				//		Then it reads numbers continously from stdin and uses function removeElement() to attempt 
 				//		to remove the number from the Ordered Set.
-				// 
-				//		This process will stop if a negative number is entered.For each number it will report whether 
+				do {
+					removeElement(SetsArray[index], input);
+					scanf_s("%d", &input);
+					enum removeElementResult result = removeElement(SetsArray[index], input);
+				} while (input >= 0);
+
+				//		This process will stop if a negative number is entered. For each number it will report whether 
 				//		removeElemenmt() returned NUMBER REMOVED or NUMBER NOT IN SET.At the end, it will call 
 				//		printToStdout() to print the resulting set(after the last element has been removed) to stdout.
-
+				printtoStdout(SetsArray[index]);
 				break;
 
 			case 5:
