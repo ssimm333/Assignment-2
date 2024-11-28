@@ -32,47 +32,47 @@ orderedIntSet* createOrderedIntSet() {
 
 
 enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
-	// checking if its a duplicate
-	dllNode* current = s->head;
-	while (current!= NULL) {
-		if (current->d == elem) {
-			return NUMBER_ALREADY_IN_SET;
-		}
-		current = current->successor;
-	}
+    // checking if its a duplicate
+    dllNode* current = s->head;
+    while (current != NULL) {
+        if (current->d == elem) {
+            return NUMBER_ALREADY_IN_SET;
+        }
+        current = current->successor;
+    }
 
-	// Create a new node 
-	dllNode* newNode = (dllNode*)malloc(sizeof(dllNode));
-	if (!newNode) return ALLOCATION_ERROR; // Bellek ayırma hatası
-	newNode->d = elem;
-	newNode->successor = NULL;
-	newNode->predecessor = NULL;
+    // Create a new node 
+    dllNode* newNode = (dllNode*)malloc(sizeof(dllNode));
+    if (!newNode) return ALLOCATION_ERROR;
+    newNode->d = elem;
+    newNode->successor = NULL;
+    newNode->predecessor = NULL;
 
-	// find position to add the element
-	//dllNode* current = s->head;
-	while (current && current->d < elem) {
-		current = current->successor;
-	}
+    // If the list is empty
+    if (s->head == NULL) {
+        s->head = newNode;
+        s->tail = newNode;
+    }
+    // If inserting at the end
+    else if (current == NULL) {
+        s->tail->successor = newNode;
+        newNode->predecessor = s->tail;
+        s->tail = newNode;
+    }
+    // If inserting in the middle
+    else {
+        if (current->predecessor) {
+            current->predecessor->successor = newNode;
+        } else {
+            s->head = newNode;
+        }
+        newNode->predecessor = current->predecessor;
+        newNode->successor = current;
+        current->predecessor = newNode;
+    }
 
-	// insert after current node
-	if (current == NULL) {
-		s->tail->successor = newNode;
-		newNode->predecessor = s->tail;
-		s->tail = newNode;
-		s->size++;
-		return NUMBER_ADDED;
-	}
-	else {
-		current->predecessor->successor = newNode;
-		newNode->predecessor = current->predecessor;
-		current->predecessor = newNode;
-		s->size++;
-		return NUMBER_ADDED;
-	}
-
-	// The element should be added at the end of the list 
-
-	return NUMBER_ADDED;
+    s->size++;
+    return NUMBER_ADDED;
 }
 
 
