@@ -28,9 +28,25 @@ orderedIntSet* createOrderedIntSet() {
 	return set;
 }
 
-// deleteOrdered Set
-orderedIntSet* deleteOrderedIntSet() {
-	
+// remove element
+orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
+	if (s == NULL) {
+		printf("Error: Invalid ordered set\n");
+		return NULL;
+	}
+
+	// Delete the underlying DoubleLinkedList
+	dllNode* current = s->head->successor;
+	while (current != s->tail) {
+		dllNode* next = current->successor;
+		free(current);
+		current = next;
+	}
+	// Free the orderedIntSet structure
+	free(s);
+
+	//The entire ordered set is deleted
+	return NULL;
 }
 
 enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
@@ -77,26 +93,24 @@ enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
     return NUMBER_ADDED;
 }
 
-// remove element
-orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
-	if (s == NULL) {
-		printf("Error: Invalid ordered set\n");
-		return NULL;
+//Removes the number elem from the set s
+enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
+	// find the element
+	dllNode* current = s->head;
+	while (current != NULL) {
+		if (current->d == elem) {
+			// remove the element
+			current->predecessor->successor = current->successor;
+			current->successor->predecessor = current->predecessor;
+			free(current);
+			s->size--;
+			return NUMBER_REMOVED;
+		}
+		current = current->successor;
 	}
-
-	// Delete the underlying DoubleLinkedList
-	dllNode* current = s->head->successor;
-	while (current != s->tail) {
-		dllNode* next = current->successor;
-		free(current);
-		current = next;
-	}
-	// Free the orderedIntSet structure
-	free(s);
-
-	//The entire ordered set is deleted
-	return NULL;
+	return NUMBER_NOT_IN_SET;
 }
+
 
 // set Intersection
 DoubleLinkedList* setIntersection(DoubleLinkedList * s1, DoubleLinkedList * s2) {
@@ -186,23 +200,5 @@ DoubleLinkedList* setUnion(DoubleLinkedList * s1, DoubleLinkedList * s2) {
 		s2 = gotoNextNode(s2);
 	}
 	return uniset;
-}
-
-//Removes the number elem from the set s
-enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
-	// find the element
-	dllNode* current = s->head;
-	while (current != NULL) {
-		if (current->d == elem) {
-			// remove the element
-			current->predecessor->successor = current->successor;
-			current->successor->predecessor = current->predecessor;
-			free(current);
-			s->size--;
-			return NUMBER_REMOVED;
-		}
-		current = current->successor;
-	}
-	return NUMBER_NOT_IN_SET;
 }
 
