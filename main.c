@@ -145,9 +145,13 @@ int main() {
 
 				// 5) Set Intersection. 
 				//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
-				//		
-				//		Then it calls function setIntersection(s1, s2) to obtain the intersetion of sets i1 and i2 
+				printf("\nEnter three indeces i1, i2 and i3 to be used: ");
+				scanf_s("%d %d %d", &index1, &index2, &index3);
+
+				//		Then it calls function setIntersection(s1, s2) to obtain the intersection of sets i1 and i2 
+				setintersection(SetsArray[index1], SetsArray[index2]);
 				//		and stores the resulting set at index i3.Finally, it prints the resulting set to stdout.
+				printToStdout(SetsArray[index3]);
 				
 				break;
 
@@ -155,21 +159,18 @@ int main() {
 
 				// 6) Set Union
 				//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
-				// 
-				//		Then it calls function setUnion(s1, s2) to obtain the union of sets i1 and i2 and stores 
-				//		the resulting set at index i3.
-				// 
-				//		Finally, it prints the resulting set to stdout.
 				printf("\nEnter three indeces i1, i2 and i3 to be used: ");
 				scanf_s("%d %d %d", &index1, &index2, &index3);
 
-
+				//		Then it calls function setUnion(s1, s2) to obtain the union of sets i1 and i2 and stores 
+				//		the resulting set at index i3.
 				SetsArray[index3] = setUnion(index1, index2);
 
+				//		Finally, it prints the resulting set to stdout
 				printf("Union of sets %d and %d: ", index1, index2);
 				printToStdout(SetsArray[index3]);
 				printf("\n");
-
+				
 				break;
 
 			case 7:
