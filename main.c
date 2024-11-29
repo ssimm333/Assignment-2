@@ -51,6 +51,10 @@ int main() {
 		int index;
 		int input;
 
+		int index1;
+		int index2;
+		int index3;
+
 		// switch statement
 		switch (choice) {
 
@@ -161,13 +165,16 @@ int main() {
 
 			case 7:
 
-				// 7) Set Difference. 
+				// 7) Set Difference
 				//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
 				// 
 				//		Then it calls function setDifference(s1,s2) to obtain the difference of sets i1 and i2
 				//		(make sure to obtain i1 − i2 and not i2 − ii) and stores the resulting set at index i3.
 				// 
 				//		Finally, it prints the resulting set to stdout.
+				printf("\nEnter three indeces i1, i2 and i3 to be used: ");
+				scanf_s("%d %d %d", &index1, &index2, &index3);
+
 
 				break;
 
