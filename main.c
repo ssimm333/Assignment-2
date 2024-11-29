@@ -134,7 +134,7 @@ int main() {
 				//		This process will stop if a negative number is entered. For each number it will report whether 
 				//		removeElemenmt() returned NUMBER REMOVED or NUMBER NOT IN SET.At the end, it will call 
 				//		printToStdout() to print the resulting set(after the last element has been removed) to stdout.
-				printtoStdout(SetsArray[index]);
+				printToStdout(SetsArray[index]);
 				break;
 
 			case 5:
