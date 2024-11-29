@@ -160,7 +160,16 @@ int main() {
 				//		the resulting set at index i3.
 				// 
 				//		Finally, it prints the resulting set to stdout.
-				
+				printf("\nEnter three indeces i1, i2 and i3 to be used: ");
+				scanf_s("%d %d %d", &index1, &index2, &index3);
+
+
+				SetsArray[index3] = setUnion(index1, index2);
+
+				printf("Union of sets %d and %d: ", index1, index2);
+				printToStdout(SetsArray[index3]);
+				printf("\n");
+
 				break;
 
 			case 7:
