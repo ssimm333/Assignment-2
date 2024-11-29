@@ -29,7 +29,9 @@ orderedIntSet* createOrderedIntSet() {
 }
 
 // deleteOrdered Set
-
+orderedIntSet* deleteOrderedIntSet() {
+	
+}
 
 enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
     // checking if its a duplicate
@@ -75,8 +77,26 @@ enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
     return NUMBER_ADDED;
 }
 
-
 // remove element
+orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
+	if (s == NULL) {
+		printf("Error: Invalid ordered set\n");
+		return NULL;
+	}
+
+	// Delete the underlying DoubleLinkedList
+	dllNode* current = s->head->successor;
+	while (current != s->tail) {
+		dllNode* next = current->successor;
+		free(current);
+		current = next;
+	}
+	// Free the orderedIntSet structure
+	free(s);
+
+	//The entire ordered set is deleted
+	return NULL;
+}
 
 // set Intersection
 DoubleLinkedList* setIntersection(DoubleLinkedList * s1, DoubleLinkedList * s2) {
@@ -186,22 +206,3 @@ enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
 	return NUMBER_NOT_IN_SET;
 }
 
-orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
-	if (s == NULL) {
-		printf("Error: Invalid ordered set\n");
-		return NULL;
-	}
-
-	// Delete the underlying DoubleLinkedList
-	dllNode* current = s->head->successor;
-	while (current != s->tail) {
-		dllNode* next = current->successor;
-		free(current);
-		current = next;
-	}
-	// Free the orderedIntSet structure
-	free(s);
-
-	//The entire ordered set is deleted
-	return NULL;
-}

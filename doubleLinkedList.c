@@ -35,7 +35,7 @@ DoubleLinkedList* createDoubleLinkedList() {
 	tail->predecessor = head;
 	tail->successor = NULL;
 
-	// assigning head and tail nodes to the double linked list
+	// assigning head and tail nodes to the double linked list 
 	doubleLinkedList->head = head;
 	doubleLinkedList->tail = tail;
 
