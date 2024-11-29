@@ -226,3 +226,4 @@ DoubleLinkedList* deleteCurrentNode(DoubleLinkedList* list) {
 		return NULL;
 	}
 }
+

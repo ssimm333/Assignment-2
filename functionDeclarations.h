@@ -20,6 +20,7 @@ typedef struct List {
 typedef struct orderedIntSet {
     dllNode* head;
     dllNode* tail;
+    dllNode* current;
     int size;
 }orderedIntSet;
 

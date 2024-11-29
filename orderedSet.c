@@ -202,3 +202,68 @@ DoubleLinkedList* setUnion(DoubleLinkedList * s1, DoubleLinkedList * s2) {
 	return uniset;
 }
 
+//Set Difference
+DoubleLinkedList* setDifference(DoubleLinkedList* s1, DoubleLinkedList* s2) {
+	// Create diffset
+	DoubleLinkedList* diffset = createDoubleLinkedList();
+
+	// Find first element of set 1
+	s1 = gotoHead(s1);
+	s1 = gotoNextNode(s1);
+
+	// for each node in set1
+	while (s1->current->successor != NULL) {
+
+		// Find first element of set 2
+		s2 = gotoHead(s2);
+		s2 = gotoNextNode(s2);
+
+		// for each node in set 2
+		while (s2->current->successor != NULL) {
+
+			// if set1i == set2i
+			if (s1->current->d == s2->current->d) {
+
+				// go to next node
+				s1 = gotoNextNode(s1);
+				s2 = gotoNextNode(s2);
+
+				// if set1i < set2i
+			}
+			else if (s1->current->d < s2->current->d) {
+
+				// add node to diffset
+				diffset = insertAfter(diffset, s1->current->d);
+				s1 = gotoNextNode(s1);
+
+				// if set1i > set2i
+			}
+			else {
+
+				// go to next node
+				s2 = gotoNextNode(s2);
+			}
+		}
+	}
+	return diffset;
+}
+
+// print to stdout
+//
+// Prints the contents of the set s to stdout. in format {num1,num2,num3}
+// empty set is {}
+orderedIntSet* printToStdout(orderedIntSet* s) {
+	printf("{");
+
+	// Find first element of set
+	s = gotoHead(s);
+	s = gotoNextNode(s);
+
+	// for each node in set
+	while (s->current->successor != NULL) {
+		printf("%i,", s->current->d);
+		s = gotoNextNode(s);
+	}
+	printf("}");
+	return s;
+}
