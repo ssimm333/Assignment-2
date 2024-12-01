@@ -17,9 +17,13 @@
 #include <stdlib.h>
 #include "functionDeclarations.h"
 
- // creates an empty ordered set (list contains no elements
- // and number of elements is set to 0).Make sure that your solution provides
- // an explicit create function.
+ /**
+ * @brief Creates an empty ordered integer set.
+ * 
+ * Allocates memory for an ordered integer set and initializes its fields.
+ * 
+ * @return A pointer to the newly created ordered integer set.
+ */
 orderedIntSet* createOrderedIntSet() {
 	orderedIntSet* set = (orderedIntSet*)malloc(sizeof(orderedIntSet));
 	set->head = NULL;
@@ -28,7 +32,12 @@ orderedIntSet* createOrderedIntSet() {
 	return set;
 }
 
-// remove element
+/**
+ * @brief Deletes an ordered integer set and frees its memory.
+ * 
+ * @param s A pointer to the ordered integer set to delete.
+ * @return NULL after the set is successfully deleted.
+ */
 orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
 	if (s == NULL) {
 		printf("Error: Invalid ordered set\n");
@@ -48,6 +57,15 @@ orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
 	//The entire ordered set is deleted
 	return NULL;
 }
+/**
+ * @brief Adds an element to the ordered set.
+ * 
+ * Checks for duplicates and inserts the element in its proper position to maintain order.
+ * 
+ * @param s Pointer to the double-linked list representing the set.
+ * @param elem The integer element to add to the set. 
+ * @return Enumeration value indicating the operation's outcome.
+*/
 
 enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
     // checking if its a duplicate
@@ -92,8 +110,17 @@ enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
     s->size++;
     return NUMBER_ADDED;
 }
+/**
+ * @brief Removes an element from the oredered set.
+ * 
+ * Locates the specified element and removes it while maintaining the List's integrity.
+ * 
+ * @param s Pointer to the double-linked list representing the set.
+ * @param elem The integer element to remove from the set. 
+ * @return Enumeration value indicating the operation's outcome.
+*/
 
-//Removes the number elem from the set s
+
 enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
 	// find the element
 	dllNode* current = s->head;
@@ -110,9 +137,18 @@ enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
 	}
 	return NUMBER_NOT_IN_SET;
 }
+/**
+ * @brief Computes the intersection of two sets.
+ * 
+ * Creates a new set containing elements coomon to both input sets.
+ * 
+ * @param s1 Pointer to the first set.
+ * @param s2 Pointer to the second set.
+ *@return A pointer to the resulting set containing the intersections.
+*/
 
 
-// set Intersection
+
 DoubleLinkedList* setIntersection(DoubleLinkedList * s1, DoubleLinkedList * s2) {
 
 	// Create interset
@@ -146,7 +182,17 @@ DoubleLinkedList* setIntersection(DoubleLinkedList * s1, DoubleLinkedList * s2) 
 	return interset;
 }
 
-// set Union
+/**
+ * @brief Computes the union of two sets.
+ * 
+ * Creates a new set containing all unique elements from both input sets.
+ * 
+ * @param s1 Pointer to the first set.
+ * @param s2 pointer to the second set.
+ * @return A pointer to the resulting set containing the union.
+*/
+
+
 DoubleLinkedList* setUnion(DoubleLinkedList * s1, DoubleLinkedList * s2) {
 
 	// Create uniset
@@ -201,8 +247,17 @@ DoubleLinkedList* setUnion(DoubleLinkedList * s1, DoubleLinkedList * s2) {
 	}
 	return uniset;
 }
+/**
+ * @brief Computes the difference of two sets.
+ * 
+ * Creates a new set conaining elements present in the first set but not in the second set.
+ * 
+ * @param s1 Pointer to the first set.
+ * @param s2 Pointer to the second set.
+ * @return A pointer to the resulting set containing the difference.
+*/
 
-//Set Difference
+
 DoubleLinkedList* setDifference(DoubleLinkedList* s1, DoubleLinkedList* s2) {
 	// Create diffset
 	DoubleLinkedList* diffset = createDoubleLinkedList();
@@ -247,6 +302,14 @@ DoubleLinkedList* setDifference(DoubleLinkedList* s1, DoubleLinkedList* s2) {
 	}
 	return diffset;
 }
+/**
+ * @brief Prints the contents of the set to stadard output.
+ * 
+ * Outputs the set in the format {num1,num2,num3}.
+ * 
+ * @param s Pointer to the set to print.
+ * @return The same pointer passed as input.
+*/
 
 // print to stdout
 //
