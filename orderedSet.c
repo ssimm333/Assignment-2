@@ -26,10 +26,18 @@
  */
 orderedIntSet* createOrderedIntSet() {
 	orderedIntSet* set = (orderedIntSet*)malloc(sizeof(orderedIntSet));
-	set->head = NULL;
-	set->tail = NULL;
-	set->size = 0;
-	return set;
+	if (set == NULL) {
+		// memory allocation failed
+		enum ReturnValue result = ALLOCATION_ERROR;
+		printf("Error: memory allocation failed\n");
+		return NULL;
+	} else {
+		// set in not null. therefore wer can access its memebers
+		set->head = NULL;
+		set->tail = NULL;
+		set->size = 0;
+		return set;
+	}
 }
 
 /**
@@ -43,20 +51,18 @@ orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
 		printf("Error: Invalid ordered set\n");
 		return NULL;
 	}
-
-	// Delete the underlying DoubleLinkedList
-	dllNode* current = s->head->successor;
-	while (current != s->tail) {
-		dllNode* next = current->successor;
-		free(current);
-		current = next;
+	else {
+		// delete the whole list except head and tail
+		dllNode* current = s->head->successor;
+		while (current != s->tail) {
+			free(current);
+			current = current->successor;
+		}
+		free(s);
+		return NULL;
 	}
-	// Free the orderedIntSet structure
-	free(s);
-
-	//The entire ordered set is deleted
-	return NULL;
 }
+
 /**
  * @brief Adds an element to the ordered set.
  * 
@@ -66,49 +72,55 @@ orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
  * @param elem The integer element to add to the set. 
  * @return Enumeration value indicating the operation's outcome.
 */
+enum ReturnValue addElement(DoubleLinkedList* s, int elem) {
 
-enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
-    // checking if its a duplicate
-    dllNode* current = s->head;
-    while (current != NULL) {
+    // checking for duplicates
+    dllNode* current = s->head->successor;
+    while (current != s->tail) {
         if (current->d == elem) {
             return NUMBER_ALREADY_IN_SET;
         }
         current = current->successor;
     }
 
-    // Create a new node 
+    // Create a new node for the element
     dllNode* newNode = (dllNode*)malloc(sizeof(dllNode));
-    if (!newNode) return ALLOCATION_ERROR;
+	if (newNode == NULL) {
+		return ALLOCATION_ERROR;
+	}
     newNode->d = elem;
-    newNode->successor = NULL;
-    newNode->predecessor = NULL;
+	
+	// inserting node into list
+	insertAfter(s, elem);
 
-    // If the list is empty
-    if (s->head == NULL) {
-        s->head = newNode;
-        s->tail = newNode;
-    }
-    // If inserting at the end
-    else if (current == NULL) {
-        s->tail->successor = newNode;
-        newNode->predecessor = s->tail;
-        s->tail = newNode;
-    }
-    // If inserting in the middle
-    else {
-        if (current->predecessor) {
-            current->predecessor->successor = newNode;
-        } else {
-            s->head = newNode;
-        }
-        newNode->predecessor = current->predecessor;
-        newNode->successor = current;
-        current->predecessor = newNode;
-    }
+    //newNode->successor = NULL;
+    //newNode->predecessor = NULL;
 
-    s->size++;
-    return NUMBER_ADDED;
+    //// If the list is empty
+    //if (s->head == NULL) {
+    //    s->head = newNode;
+    //    s->tail = newNode;
+    //}
+    //// If inserting at the end
+    //else if (current == NULL) {
+    //    s->tail->successor = newNode;
+    //    newNode->predecessor = s->tail;
+    //    s->tail = newNode;
+    //}
+    //// If inserting in the middle
+    //else {
+    //    if (current->predecessor) {
+    //        current->predecessor->successor = newNode;
+    //    } else {
+    //        s->head = newNode;
+    //    }
+    //    newNode->predecessor = current->predecessor;
+    //    newNode->successor = current;
+    //    current->predecessor = newNode;
+    //}
+
+    //s->size++;
+    //return NUMBER_ADDED;
 }
 /**
  * @brief Removes an element from the oredered set.
@@ -119,24 +131,21 @@ enum ReturnValue addElement(DoubleLinkedList * s, int elem) {
  * @param elem The integer element to remove from the set. 
  * @return Enumeration value indicating the operation's outcome.
 */
-
-
 enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
+
 	// find the element
-	dllNode* current = s->head;
-	while (current != NULL) {
+	dllNode* current = s->head->successor;
+	while (current != s->tail) {
 		if (current->d == elem) {
 			// remove the element
-			current->predecessor->successor = current->successor;
-			current->successor->predecessor = current->predecessor;
-			free(current);
-			s->size--;
+			deleteCurrentNode(s);
 			return NUMBER_REMOVED;
 		}
 		current = current->successor;
 	}
 	return NUMBER_NOT_IN_SET;
 }
+
 /**
  * @brief Computes the intersection of two sets.
  * 
@@ -146,28 +155,26 @@ enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
  * @param s2 Pointer to the second set.
  *@return A pointer to the resulting set containing the intersections.
 */
-
-
-
-DoubleLinkedList* setIntersection(DoubleLinkedList * s1, DoubleLinkedList * s2) {
+DoubleLinkedList* setIntersection(DoubleLinkedList* s1, DoubleLinkedList* s2) {
 
 	// Create interset
 	DoubleLinkedList* interset = createDoubleLinkedList();
+
 	//Find first element of set 1
 	s1 = gotoHead(s1);
 	s1 = gotoNextNode(s1);
 
 	// for each node in set1
-	while (s1->current->successor != NULL) {
+	while (s1->current->successor != s1->tail) {
 
 		//Find first element of set 2
 		s2 = gotoHead(s2);
 		s2 = gotoNextNode(s2);
 
 		// For each node in set 2
-		while (s2->current->successor != NULL) {
+		while (s2->current->successor != s2->tail) {
 
-			// If set1i == set2i
+			// If set i1 == set i2
 			if (s1->current->d == s2->current->d) {
 
 				// add node i to interset
@@ -191,8 +198,6 @@ DoubleLinkedList* setIntersection(DoubleLinkedList * s1, DoubleLinkedList * s2) 
  * @param s2 pointer to the second set.
  * @return A pointer to the resulting set containing the union.
 */
-
-
 DoubleLinkedList* setUnion(DoubleLinkedList * s1, DoubleLinkedList * s2) {
 
 	// Create uniset
@@ -203,11 +208,10 @@ DoubleLinkedList* setUnion(DoubleLinkedList * s1, DoubleLinkedList * s2) {
 	s1 = gotoNextNode(s1);
 
 	//for each node in set1
-	while (s1->current->successor != NULL) {
+	while (s1->current->successor != s1->tail) {
 
 		// Add node to uniset
 		uniset = insertAfter(uniset, s1->current->d);
-
 		s1 = gotoNextNode(s1);
 	}
 
@@ -216,7 +220,7 @@ DoubleLinkedList* setUnion(DoubleLinkedList * s1, DoubleLinkedList * s2) {
 	s2 = gotoNextNode(s2);
 
 	// for each node in set2
-	while (s2->current->successor != NULL) {
+	while (s2->current->successor != s2->tail) {
 
 		// for each node in uniset
 		while (uniset->current->successor != NULL) {
@@ -256,8 +260,6 @@ DoubleLinkedList* setUnion(DoubleLinkedList * s1, DoubleLinkedList * s2) {
  * @param s2 Pointer to the second set.
  * @return A pointer to the resulting set containing the difference.
 */
-
-
 DoubleLinkedList* setDifference(DoubleLinkedList* s1, DoubleLinkedList* s2) {
 	// Create diffset
 	DoubleLinkedList* diffset = createDoubleLinkedList();
@@ -323,11 +325,10 @@ orderedIntSet* printToStdout(orderedIntSet* s) {
 	s = gotoNextNode(s);
 
 	// for each node in set
-	while (s->current->successor != NULL) {
+	while (s->current->successor != s->tail) {
 		printf("%i,", s->current->d);
 		s = gotoNextNode(s);
 	}
 	printf("}");
 	return s;
 }
-
