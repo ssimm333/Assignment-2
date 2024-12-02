@@ -47,7 +47,7 @@ DoubleLinkedList* createDoubleLinkedList() {
 DoubleLinkedList* deleteDoubleLinkedList(DoubleLinkedList* list) {
 
 	// Pre: valid double linked list exists
-	if (list == NULL || list->head == NULL) {
+	if (list == NULL) {
 		// pre condition not met
 		printf("Error: Invalid double linked list\n");
 		return NULL;
@@ -72,7 +72,7 @@ DoubleLinkedList* deleteDoubleLinkedList(DoubleLinkedList* list) {
 DoubleLinkedList* getData(DoubleLinkedList* list) {
 
 	// Pre: valid double linked list exists
-	if (list == NULL || list->head == NULL) {
+	if (list == NULL) {
 		printf("Error: Invalid double linked list\n");
 		return NULL;
 	}
@@ -85,8 +85,8 @@ DoubleLinkedList* getData(DoubleLinkedList* list) {
 DoubleLinkedList* gotoNextNode(DoubleLinkedList* list) {
 
 	// Pre: valid double linked list exists
-	if (list == NULL || list->head == NULL) {
-		printf("Error: INvalud double linked list\n");
+	if (list == NULL) {
+		printf("Error: Invalid double linked list\n");
 		return NULL;
 	}
 
@@ -101,7 +101,7 @@ DoubleLinkedList* gotoNextNode(DoubleLinkedList* list) {
 // sets current node to predeccessor of current
 DoubleLinkedList* gotoPreviousNode(DoubleLinkedList* list) {
 	// Pre: valid double linked list exists
-	if (list == NULL || list->head == NULL) {
+	if (list == NULL) {
 		printf("Error: Invalid doube linked list\n");
 		return NULL;
 	}
@@ -117,7 +117,7 @@ DoubleLinkedList* gotoPreviousNode(DoubleLinkedList* list) {
 // sets current node to head
 DoubleLinkedList* gotoHead(DoubleLinkedList* list) {
 	// Pre: valid double linked list exists
-	if (list == NULL || list->head == NULL) {
+	if (list == NULL) {
 		printf("Error: Invalid double linked list\n");
 		return NULL;
 	}
@@ -130,7 +130,7 @@ DoubleLinkedList* gotoHead(DoubleLinkedList* list) {
 // sets current node to tail
 DoubleLinkedList* gotoTail(DoubleLinkedList* list) {
 	// Pre: valid double linked list exists
-	if (list == NULL || list->head == NULL) {
+	if (list == NULL) {
 		printf("Error: Invalid double linked list\n");
 		return NULL;
 	}
@@ -144,8 +144,8 @@ DoubleLinkedList* gotoTail(DoubleLinkedList* list) {
 // inserts it after the current node.
 DoubleLinkedList* insertAfter(DoubleLinkedList* list, data newdata) {
 	// Pre: valid double linked list exists and newdata is valid data
-	if (list == NULL || list->head == NULL || newdata == NULL) {
-		printf("Error: Invalid double linked list\n");
+	if (list == NULL || newdata == NULL) {
+		printf("Error: Invalid double linked list OR Invalid data\n");
 		return NULL;
 	}
 
@@ -153,23 +153,23 @@ DoubleLinkedList* insertAfter(DoubleLinkedList* list, data newdata) {
 	dllNode* newNode = (dllNode*)malloc(sizeof(dllNode));
 
 	// initialising new node
-	newNode->d = newdata;
-
-	// setting current to new node
-	list->current = newNode;
+	if (newNode == NULL) {
+		enum ReturnValue result = ALLOCATION_ERROR;
+		printf("Error: memeory allocation failed\n");
+		return NULL;
+	} else {
+		// initialising new node
+		newNode->d = newdata;
+	}
 
 	// Post: if current is not tail, new node is inserted after
 	// current node. Otherwise list remains unchanged and an error 
 	// is returned.
-	if (list->current != list->tail) {
+	if (list->current != NULL && list->current != list->tail) {
 		newNode->predecessor = list->current;
-		newNode->successor = list->current->successor;
-		list->current->successor->predecessor = newNode;
-		list->current->successor = newNode;
-		return list;
-	}
-	else {
-		printf("Error: Invalid double linked list\n");
+		newNode->successor = list->current->successor->successor;
+	} else {
+		printf("Error: current node is tail\n");
 		return NULL;
 	}
 }
@@ -178,7 +178,7 @@ DoubleLinkedList* insertAfter(DoubleLinkedList* list, data newdata) {
 // before the current node.
 DoubleLinkedList* insertBefore(DoubleLinkedList* list, data newdata) {
 	// Pre: valid double linked list exists and newdata is valid data
-	if (list == NULL || list->head == NULL || newdata == NULL) {
+	if (list == NULL ||  newdata == NULL) {
 		printf("Error: Invalid double linked list\n");
 		return NULL;
 	}
@@ -187,7 +187,15 @@ DoubleLinkedList* insertBefore(DoubleLinkedList* list, data newdata) {
 	dllNode* newNode = (dllNode*)malloc(sizeof(dllNode));
 
 	// initialising new node
-	newNode->d = newdata;
+	if (newNode == NULL) {
+		enum ReturnValue result = ALLOCATION_ERROR;
+		printf("Error: memeory allocation failed\n");
+		return NULL;
+	}
+	else {
+		// initialising new node
+		newNode->d = newdata;
+	}
 
 	// Post: if current node is not head, new node is inserted 
 	// before current node. Otherwise list remains unchanged and an 
@@ -198,17 +206,15 @@ DoubleLinkedList* insertBefore(DoubleLinkedList* list, data newdata) {
 		list->current->predecessor->successor = newNode;
 		list->current->predecessor = newNode;
 		return list;
-	}
-	else {
+	} else {
 		printf("Error: Invalid double linked list\n");
 		return NULL;
-
 	}
 }
 
 DoubleLinkedList* deleteCurrentNode(DoubleLinkedList* list) {
 	// Pre: valid double linked list exists
-	if (list == NULL || list->head == NULL) {
+	if (list == NULL) {
 		printf("Error: Invalid double linked list\n");
 		return NULL;
 	}
@@ -220,8 +226,7 @@ DoubleLinkedList* deleteCurrentNode(DoubleLinkedList* list) {
 		list->current->successor->predecessor = list->current->predecessor;
 		free(list->current);
 		return list;
-	}
-	else {
+	} else {
 		printf("Error: Invalid double linked list\n");
 		return NULL;
 	}
