@@ -149,7 +149,7 @@ int main() {
 				scanf_s("%d %d %d", &index1, &index2, &index3);
 
 				//		Then it calls function setIntersection(s1, s2) to obtain the intersection of sets i1 and i2 
-				setIntersection(SetsArray[index1], SetsArray[index2]);
+				setIntersection(SetsArray[index1], SetsArray[index2], SetsArray[index3]);
 				//		and stores the resulting set at index i3.Finally, it prints the resulting set to stdout.
 				printToStdout(SetsArray[index3]);
 				

@@ -155,10 +155,9 @@ enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
  * @param s2 Pointer to the second set.
  *@return A pointer to the resulting set containing the intersections.
 */
-orderedIntSet* setIntersection(orderedIntSet* s1, orderedIntSet* s2) {
+void setIntersection(orderedIntSet* s1, orderedIntSet* s2, orderedIntSet* inter) {
 
-	// Create interset
-	orderedIntSet* interset = createOrderedIntSet();
+	
 
 	//Find first element of set 1
 	s1 = gotoHead(s1);
@@ -178,7 +177,7 @@ orderedIntSet* setIntersection(orderedIntSet* s1, orderedIntSet* s2) {
 			if (s1->current->d == s2->current->d) {
 
 				// add node i to interset
-				interset = insertAfter(interset, s2->current->d);
+				insertAfter(inter, s2->current->d);
 			}
 
 			s2 = gotoNextNode(s2);
@@ -186,7 +185,7 @@ orderedIntSet* setIntersection(orderedIntSet* s1, orderedIntSet* s2) {
 
 		s1 = gotoNextNode(s1);
 	}
-	return interset;
+	return;
 }
 
 /**
@@ -201,7 +200,7 @@ orderedIntSet* setIntersection(orderedIntSet* s1, orderedIntSet* s2) {
 orderedIntSet* setUnion(orderedIntSet * s1, orderedIntSet * s2) {
 
 	// Create uniset
-	orderedIntSet* uniset = createorderedIntSet();
+	orderedIntSet* uniset = createOrderedIntSet();
 
 	//Find first element of set 1
 	s1 = gotoHead(s1);
