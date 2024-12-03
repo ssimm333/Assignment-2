@@ -155,24 +155,24 @@ enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
  * @param s2 Pointer to the second set.
  *@return A pointer to the resulting set containing the intersections.
 */
-DoubleLinkedList* setIntersection(DoubleLinkedList* s1, DoubleLinkedList* s2) {
+orderedIntSet* setIntersection(orderedIntSet* s1, orderedIntSet* s2) {
 
 	// Create interset
-	DoubleLinkedList* interset = createDoubleLinkedList();
+	orderedIntSet* interset = createOrderedIntSet();
 
 	//Find first element of set 1
 	s1 = gotoHead(s1);
 	s1 = gotoNextNode(s1);
 
 	// for each node in set1
-	while (s1->current->successor != s1->tail) {
+	while (s1->current != s1->tail) {
 
 		//Find first element of set 2
 		s2 = gotoHead(s2);
 		s2 = gotoNextNode(s2);
 
 		// For each node in set 2
-		while (s2->current->successor != s2->tail) {
+		while (s2->current != s2->tail) {
 
 			// If set i1 == set i2
 			if (s1->current->d == s2->current->d) {
@@ -198,17 +198,17 @@ DoubleLinkedList* setIntersection(DoubleLinkedList* s1, DoubleLinkedList* s2) {
  * @param s2 pointer to the second set.
  * @return A pointer to the resulting set containing the union.
 */
-DoubleLinkedList* setUnion(DoubleLinkedList * s1, DoubleLinkedList * s2) {
+orderedIntSet* setUnion(orderedIntSet * s1, orderedIntSet * s2) {
 
 	// Create uniset
-	DoubleLinkedList* uniset = createDoubleLinkedList();
+	orderedIntSet* uniset = createorderedIntSet();
 
 	//Find first element of set 1
 	s1 = gotoHead(s1);
 	s1 = gotoNextNode(s1);
 
 	//for each node in set1
-	while (s1->current->successor != s1->tail) {
+	while (s1->current != s1->tail) {
 
 		// Add node to uniset
 		uniset = insertAfter(uniset, s1->current->d);
@@ -220,10 +220,10 @@ DoubleLinkedList* setUnion(DoubleLinkedList * s1, DoubleLinkedList * s2) {
 	s2 = gotoNextNode(s2);
 
 	// for each node in set2
-	while (s2->current->successor != s2->tail) {
+	while (s2->current != s2->tail) {
 
 		// for each node in uniset
-		while (uniset->current->successor != NULL) {
+		while (uniset->current != uniset->tail) {
 
 			// if uniseti < set2i
 			if (uniset->current->d < s2->current->d) {
