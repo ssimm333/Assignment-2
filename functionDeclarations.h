@@ -47,7 +47,7 @@ orderedIntSet* deleteOrderedIntSet(orderedIntSet* s);
 enum ReturnValue addElement(DoubleLinkedList* s, int elem);
 enum ReturnValue removeElement(DoubleLinkedList* s, int elem);
 
-void setIntersection(orderedIntSet* s1, orderedIntSet* s2, orderedIntSet* inter);
+orderedIntSet* setIntersection(orderedIntSet* s1, orderedIntSet* s2);
 orderedIntSet* setUnion(orderedIntSet* s1, orderedIntSet* s2);
 DoubleLinkedList* setDifference(DoubleLinkedList* s1, DoubleLinkedList* s2);
 orderedIntSet* printToStdout(orderedIntSet* s);

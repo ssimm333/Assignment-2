@@ -19,27 +19,39 @@
 // create a new empty double linked list
 // consisting of only a head and tail
 DoubleLinkedList* createDoubleLinkedList() {
-
 	// Pre: None
 
-	// allocating memory for double linked list
+	   // Allocate memory for the doubly linked list structure
 	DoubleLinkedList* doubleLinkedList = (DoubleLinkedList*)malloc(sizeof(DoubleLinkedList));
+	if (doubleLinkedList == NULL) {
+		printf("Error: memory allocation failed\n");
+		return NULL;
+	}
 
-	// allocating memory for the head and tail node
+	// Allocate memory for the head and tail dummy nodes
 	dllNode* head = (dllNode*)malloc(sizeof(dllNode));
 	dllNode* tail = (dllNode*)malloc(sizeof(dllNode));
+	if (head == NULL || tail == NULL) {
+		printf("Error: memory allocation for head or tail failed\n");
+		free(doubleLinkedList); // Clean up
+		return NULL;
+	}
 
-	// initialising head and tail nodes
-	head->predecessor = NULL;
-	head->successor = tail;
-	tail->predecessor = head;
-	tail->successor = NULL;
 
-	// assigning head and tail nodes to the double linked list 
+
+	// Initialize dummy head and tail nodes
+	head->successor = tail;  // Head points to tail
+	head->predecessor = NULL; // Head has no predecessor
+	tail->successor = NULL;   // Tail has no successor
+	tail->predecessor = head; // Tail's predecessor is head
+
+	// Assign the head and tail to the list
 	doubleLinkedList->head = head;
 	doubleLinkedList->tail = tail;
+	doubleLinkedList->current = head; // Initialize current to head node (important for traversal)
+	doubleLinkedList->size = 0;
 
-	// Post: Empty double linked list is created
+	// Post: Empty doubly linked list is created with proper initialization
 	return doubleLinkedList;
 }
 
@@ -84,18 +96,22 @@ DoubleLinkedList* getData(DoubleLinkedList* list) {
 // sets current node to the successor of current
 DoubleLinkedList* gotoNextNode(DoubleLinkedList* list) {
 
-	// Pre: valid double linked list exists
-	if (list == NULL) {
-		printf("Error: Invalid double linked list\n");
-		return NULL;
+	// Pre: valid double linked list exists and current is valid
+	 // Check if the list or the current node is NULL
+	if (list == NULL || list->current == NULL) {
+		printf("Error: Invalid double linked list or current node is NULL.\n");
+		return NULL;  // Exit if the list or current node is NULL
 	}
 
-	// Post: if current node is other than tail, current node is set to successor 
-	// of current node. Otherwise, list remains unchanged.
-	if (list->current != list->tail) {
-		list->current = list->current->successor;
+	// If the current node does not have a successor, we should stop
+	if (list->current->successor == NULL) {
+		printf("Error: Current node does not have a successor.\n");
+		return NULL;  // Exit if there is no successor
 	}
-	return list->current;
+
+	// Move to the next node
+	list->current = list->current->successor;
+	return list;
 }
 
 // sets current node to predeccessor of current
@@ -117,15 +133,16 @@ DoubleLinkedList* gotoPreviousNode(DoubleLinkedList* list) {
 // sets current node to head
 DoubleLinkedList* gotoHead(DoubleLinkedList* list) {
 	// Pre: valid double linked list exists
-	if (list == NULL) {
-		printf("Error: Invalid double linked list\n");
-		return NULL;
+	// Check if the list is NULL or has no head
+	if (list == NULL || list->head == NULL) {
+		printf("Error: Invalid double linked list or head is NULL.\n");
+		return NULL;  // Exit if the list or head is NULL
 	}
-
-	// Post: current node is set to head
-	list->current = list->head;
-	return list->current;
+	list->current = list->head->successor;  // Move to the first element
+	return list;
 }
+
+
 
 // sets current node to tail
 DoubleLinkedList* gotoTail(DoubleLinkedList* list) {

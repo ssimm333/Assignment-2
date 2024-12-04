@@ -27,17 +27,30 @@
 orderedIntSet* createOrderedIntSet() {
 	orderedIntSet* set = (orderedIntSet*)malloc(sizeof(orderedIntSet));
 	if (set == NULL) {
-		// memory allocation failed
-		enum ReturnValue result = ALLOCATION_ERROR;
-		printf("Error: memory allocation failed\n");
+		printf("Error: memory allocation failed for set\n");
 		return NULL;
-	} else {
-		// set in not null. therefore wer can access its memebers
-		set->head = NULL;
-		set->tail = NULL;
-		set->size = 0;
-		return set;
 	}
+
+	// Create head and tail nodes
+	set->head = (dllNode*)malloc(sizeof(dllNode));
+	set->tail = (dllNode*)malloc(sizeof(dllNode));
+
+	if (set->head == NULL || set->tail == NULL) {
+		printf("Error: memory allocation failed for head or tail\n");
+		free(set); // Clean up
+		return NULL;
+	}
+
+	// Initialize the head and tail nodes
+	set->head->successor = set->tail;  // head points to tail
+	set->head->predecessor = NULL;     // head has no predecessor
+	set->tail->predecessor = set->head; // tail points back to head
+	set->tail->successor = NULL;        // tail has no successor
+
+	set->current = set->head;  // Ensure the current pointer starts at the head
+
+	set->size = 0;
+	return set;
 }
 
 /**
@@ -47,20 +60,25 @@ orderedIntSet* createOrderedIntSet() {
  * @return NULL after the set is successfully deleted.
  */
 orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
-	if (s == NULL) {
+	if(s == NULL) {
 		printf("Error: Invalid ordered set\n");
 		return NULL;
 	}
-	else {
-		// delete the whole list except head and tail
-		dllNode* current = s->head->successor;
-		while (current != s->tail) {
-			free(current);
-			current = current->successor;
-		}
-		free(s);
-		return NULL;
+
+	// Delete the whole list except head and tail
+	dllNode* current = s->head->successor;
+	while (current != s->tail) {
+		dllNode* temp = current;
+		current = current->successor;
+		free(temp); // Free each node in the list
 	}
+
+	free(s->head); // Free the head node
+	free(s->tail); // Free the tail node
+	free(s); // Free the set itself
+
+	// Return NULL to indicate the set has been deleted
+	return NULL;
 }
 
 /**
@@ -72,55 +90,60 @@ orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
  * @param elem The integer element to add to the set. 
  * @return Enumeration value indicating the operation's outcome.
 */
-enum ReturnValue addElement(DoubleLinkedList* s, int elem) {
+enum ReturnValue addElement(DoubleLinkedList* set, int value) {
 
-    // checking for duplicates
-    dllNode* current = s->head->successor;
-    while (current != s->tail) {
-        if (current->d == elem) {
-            return NUMBER_ALREADY_IN_SET;
-        }
-        current = current->successor;
-    }
-
-    // Create a new node for the element
-    dllNode* newNode = (dllNode*)malloc(sizeof(dllNode));
-	if (newNode == NULL) {
-		return ALLOCATION_ERROR;
+	// Pre-condition check: make sure the set is valid
+	if (set == NULL) {
+		printf("Error: Set is NULL\n");
+		return ALLOCATION_ERROR; // Return allocation error if set is NULL
 	}
-    newNode->d = elem;
-	
-	// inserting node into list
-	insertAfter(s, elem);
 
-    //newNode->successor = NULL;
-    //newNode->predecessor = NULL;
+	// Handle case where the set is empty (current node is at the tail)
+	if (set->current == set->tail) {
+		// If the set is empty, initialize it with the first element
+		dllNode* newNode = (dllNode*)malloc(sizeof(dllNode));
+		if (newNode == NULL) {
+			printf("Error: Memory allocation failed\n");
+			return ALLOCATION_ERROR; // Return allocation error if memory fails
+		}
+		newNode->d = value;
+		newNode->predecessor = NULL;
+		newNode->successor = set->tail;
+		set->tail->predecessor = newNode;
 
-    //// If the list is empty
-    //if (s->head == NULL) {
-    //    s->head = newNode;
-    //    s->tail = newNode;
-    //}
-    //// If inserting at the end
-    //else if (current == NULL) {
-    //    s->tail->successor = newNode;
-    //    newNode->predecessor = s->tail;
-    //    s->tail = newNode;
-    //}
-    //// If inserting in the middle
-    //else {
-    //    if (current->predecessor) {
-    //        current->predecessor->successor = newNode;
-    //    } else {
-    //        s->head = newNode;
-    //    }
-    //    newNode->predecessor = current->predecessor;
-    //    newNode->successor = current;
-    //    current->predecessor = newNode;
-    //}
+		// Set the current node to the newly added node
+		set->current = newNode;
 
-    //s->size++;
-    //return NUMBER_ADDED;
+		return NUMBER_ADDED;
+	}
+
+	// Now, if current is not tail, we can proceed to add an element in the appropriate order
+	dllNode* currentNode = set->current;
+	while (currentNode != set->tail && currentNode->d < value) {
+		currentNode = currentNode->successor;
+	}
+
+	// Check if the element already exists
+	if (currentNode != set->tail && currentNode->d == value) {
+		return NUMBER_ALREADY_IN_SET; // Element is already in the set
+	}
+
+	// Add new node in the right place
+	dllNode* newNode = (dllNode*)malloc(sizeof(dllNode));
+	if (newNode == NULL) {
+		printf("Error: Memory allocation failed\n");
+		return ALLOCATION_ERROR; // Return allocation error if memory fails
+	}
+
+	newNode->d = value;
+	newNode->successor = currentNode;
+	newNode->predecessor = currentNode->predecessor;
+	if (currentNode->predecessor != NULL) {
+		currentNode->predecessor->successor = newNode;
+	}
+	currentNode->predecessor = newNode;
+
+	return NUMBER_ADDED; // Successfully added element
 }
 /**
  * @brief Removes an element from the oredered set.
@@ -155,37 +178,40 @@ enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
  * @param s2 Pointer to the second set.
  *@return A pointer to the resulting set containing the intersections.
 */
-void setIntersection(orderedIntSet* s1, orderedIntSet* s2, orderedIntSet* inter) {
+orderedIntSet* setIntersection(orderedIntSet* s1, orderedIntSet* s2) {
+	if (s1 == NULL || s2 == NULL) {
+		printf("Error: One or both sets are NULL\n");
+		return NULL;  // Or return an error code, depending on your needs
+	}
 
-	
+	orderedIntSet* intersection = createOrderedIntSet();
+	if (intersection == NULL) {
+		printf("Error: Failed to create intersection set\n");
+		return NULL;
+	}
 
-	//Find first element of set 1
+	// Assuming s1 and s2 are ordered and not empty, now perform intersection
+	// You can use logic like this to go through the elements in both sets
 	s1 = gotoHead(s1);
 	s1 = gotoNextNode(s1);
 
-	// for each node in set1
 	while (s1->current != s1->tail) {
-
-		//Find first element of set 2
 		s2 = gotoHead(s2);
 		s2 = gotoNextNode(s2);
 
-		// For each node in set 2
 		while (s2->current != s2->tail) {
-
-			// If set i1 == set i2
 			if (s1->current->d == s2->current->d) {
-
-				// add node i to interset
-				insertAfter(inter, s2->current->d);
+				// Add common element to intersection set
+				insertAfter(intersection, s1->current->d);
+				break;
 			}
-
 			s2 = gotoNextNode(s2);
 		}
 
 		s1 = gotoNextNode(s1);
 	}
-	return;
+
+	return intersection;
 }
 
 /**
@@ -199,57 +225,53 @@ void setIntersection(orderedIntSet* s1, orderedIntSet* s2, orderedIntSet* inter)
 */
 orderedIntSet* setUnion(orderedIntSet * s1, orderedIntSet * s2) {
 
-	// Create uniset
-	orderedIntSet* uniset = createOrderedIntSet();
+	if (s1 == NULL || s2 == NULL) {
+		printf("Error: One or both sets are NULL\n");
+		return NULL;
+	}
 
-	//Find first element of set 1
+	// Check if head and tail are properly initialized in both sets
+	if (s1->head == NULL || s2->head == NULL || s1->tail == NULL || s2->tail == NULL) {
+		printf("Error: Set or head is NULL\n");
+		return NULL;
+	}
+
+	// Create a new set for the union result
+	DoubleLinkedList* uniset = createDoubleLinkedList();
+	if (uniset == NULL) {
+		printf("Error: Failed to create the result set\n");
+		return NULL;
+	}
+
+	// Traverse both sets and perform union
 	s1 = gotoHead(s1);
-	s1 = gotoNextNode(s1);
-
-	//for each node in set1
-	while (s1->current != s1->tail) {
-
-		// Add node to uniset
-		uniset = insertAfter(uniset, s1->current->d);
-		s1 = gotoNextNode(s1);
-	}
-
-	// Find first element of set2
 	s2 = gotoHead(s2);
-	s2 = gotoNextNode(s2);
 
-	// for each node in set2
-	while (s2->current != s2->tail) {
-
-		// for each node in uniset
-		while (uniset->current != uniset->tail) {
-
-			// if uniseti < set2i
-			if (uniset->current->d < s2->current->d) {
-
-				// go to next node
-				uniset = gotoNextNode(uniset);
-
-				// if uniseti == set2i
-			}
-			else if (uniset->current->d == s2->current->d) {
-
-				// go to tail
-				uniset = gotoTail(uniset);
-
-				// if uniseti > set2i
-			}
-			else {
-
-				//add node before current and go to tail
-				uniset = insertBefore(uniset, s2->current->d);
-				uniset = gotoTail(uniset);
-			}
-		}
-		s2 = gotoNextNode(s2);
+	while (s1->current != s1->tail || s2->current != s2->tail) {
+		addElement(uniset, s1->current->d);  // Add current element to the uniset
+		s1 = gotoNextNode(s1);  // Move to the next node in s1
 	}
-	return uniset;
+
+	// Traverse the second set (s2)
+	s2 = gotoHead(s2);  // Set the current pointer to head
+	s2 = gotoNextNode(s2);  // Move to the first element of the set
+
+	// Add all elements from s2 to uniset, avoiding duplicates
+	while (s2->current != s2->tail) {
+		// Get the last element in the union set (if any)
+		int lastElem = uniset->tail->predecessor->d;
+
+		// Add the element from s2 only if it's different from the last element
+		if (lastElem != s2->current->d) {
+			addElement(uniset, s2->current->d);  // Add current element to the uniset
+		}
+
+		s2 = gotoNextNode(s2);  // Move to the next node in s2
+	}
+
+	return uniset;  // Return the resulting union set
 }
+
 /**
  * @brief Computes the difference of two sets.
  * 
@@ -260,47 +282,53 @@ orderedIntSet* setUnion(orderedIntSet * s1, orderedIntSet * s2) {
  * @return A pointer to the resulting set containing the difference.
 */
 DoubleLinkedList* setDifference(DoubleLinkedList* s1, DoubleLinkedList* s2) {
-	// Create diffset
-	DoubleLinkedList* diffset = createDoubleLinkedList();
-
-	// Find first element of set 1
-	s1 = gotoHead(s1);
-	s1 = gotoNextNode(s1);
-
-	// for each node in set1
-	while (s1->current->successor != NULL) {
-
-		// Find first element of set 2
-		s2 = gotoHead(s2);
-		s2 = gotoNextNode(s2);
-
-		// for each node in set 2
-		while (s2->current->successor != NULL) {
-
-			// if set1i == set2i
-			if (s1->current->d == s2->current->d) {
-
-				// go to next node
-				s1 = gotoNextNode(s1);
-				s2 = gotoNextNode(s2);
-
-				// if set1i < set2i
-			}
-			else if (s1->current->d < s2->current->d) {
-
-				// add node to diffset
-				diffset = insertAfter(diffset, s1->current->d);
-				s1 = gotoNextNode(s1);
-
-				// if set1i > set2i
-			}
-			else {
-
-				// go to next node
-				s2 = gotoNextNode(s2);
-			}
-		}
+	// Check if either set is NULL
+	if (s1 == NULL || s2 == NULL) {
+		printf("Error: One or both sets are NULL.\n");
+		return NULL;  // Exit if either set is NULL
 	}
+
+	// Check if head and tail are properly initialized in both sets
+	if (s1->head == NULL || s2->head == NULL || s1->tail == NULL || s2->tail == NULL) {
+		printf("Error: Set or head is NULL\n");
+		return NULL;
+	}
+
+	// Create a new set to store the difference
+	DoubleLinkedList* diffset = createDoubleLinkedList();
+	if (diffset == NULL) {
+		printf("Error: Failed to create a new ordered set for the set difference.\n");
+		return NULL;  // Exit if the diffset cannot be created
+	}
+
+	// Initialize iteration on s1
+	s1 = gotoHead(s1);
+	s1 = gotoNextNode(s1);  // Now s1->current is at the first node
+
+	// Iterate through all nodes in set 1
+	while (s1 != NULL && s1->current != NULL && s1->current->successor != NULL) {
+		int isFoundInS2 = 0;
+
+		// Check if the element is in set 2
+		s2 = gotoHead(s2);
+		s2 = gotoNextNode(s2);  // Now s2->current is at the first node
+
+		while (s2 != NULL && s2->current != NULL && s2->current->successor != NULL) {
+			if (s1->current->d == s2->current->d) {
+				isFoundInS2 = 1;  // Element found in set 2
+				break;  // Break out of the inner loop since element is in set 2
+			}
+			s2 = gotoNextNode(s2);  // Move to the next node in s2
+		}
+
+		// If element not found in s2, add to the result
+		if (!isFoundInS2) {
+			diffset = insertAfter(diffset, s1->current->d);  // Add element to the difference set
+		}
+
+		s1 = gotoNextNode(s1);  // Move to the next node in s1
+	}
+
 	return diffset;
 }
 /**
@@ -317,17 +345,23 @@ DoubleLinkedList* setDifference(DoubleLinkedList* s1, DoubleLinkedList* s2) {
 // Prints the contents of the set s to stdout. in format {num1,num2,num3}
 // empty set is {}
 orderedIntSet* printToStdout(orderedIntSet* s) {
-	printf("{");
-
-	// Find first element of set
-	s = gotoHead(s);
-	s = gotoNextNode(s);
-
-	// for each node in set
-	while (s->current->successor != s->tail) {
-		printf("%i,", s->current->d);
-		s = gotoNextNode(s);
+	if (s == NULL || s->head == NULL || s->tail == NULL) {
+		printf("Error: Set is NULL\n");
+		return NULL;  // Return or handle the error appropriately
 	}
-	printf("}");
-	return s;
+
+
+	// Assuming you have a valid set, iterate through its elements
+	s = gotoHead(s);  // Go to head of the set
+	s = gotoNextNode(s);  // Go to first element
+	
+	printf("{");
+	while (s != NULL && s->current != NULL && s->current->successor != NULL) {
+		{
+		printf("%i,", s->current->d);  // Print the current element
+		s = gotoNextNode(s);  // Move to the next element
+	}
+	printf("}\n");
+
+	return s;  // Return the set
 }

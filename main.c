@@ -87,36 +87,46 @@ int main() {
 				// read index
 				scanf_s("%d", &index);
 
-				deleteOrderedIntSet(SetsArray[index]);
+				SetsArray[index] = deleteOrderedIntSet(SetsArray[index]);
+
+				printf("Set at index %d deleted successfully.\n", index);
 				break;
 
 			case 3:
-
 				// 3) add Elements to Ordered Set
-				//		prompts user to enter the index in SetsArray of the set to be used
-				//		(reads from stdin).
+				// prompts user to enter the index in SetsArray of the set to be used (reads from stdin).
 				printf("\nEnter index (0 - 9) for set to be used: ");
 
 				// read index
 				scanf_s("%d", &index);
 
-				
-				//		Then, reads numbers continunously form stdin and uses the function 
-				//		addElement() to attempt to add the number to the Ordered Set.
-				//		This process will stop if a negative number is entered	
+				printf("\nPlease enter element (enter value <0 to stop):");
+
+				// Then, reads numbers continuously from stdin and uses the function addElement() to attempt to add the number to the Ordered Set.
+				// This process will stop if a negative number is entered.
 				scanf_s("%d", &input);
 				while (input >= 0) {
-					addElement(SetsArray[index], input);
-					scanf_s("%d", &input);
+					enum addElementResult result = addElement(SetsArray[index], input);
 
-				//		For each numberm it will report whether addELement() returned NUMBER_ADDED
-				//		or NUMBER_ALREADY_IN_SET. 
-				enum addElementResult result = addElement(SetsArray[index], input);
+					if (result == NUMBER_ADDED) {
+						printf("NUMBER ADDED\n");
+					}
+					else if (result == NUMBER_ALREADY_IN_SET) {
+						printf("NUMBER ALREADY IN SET\n");
+					}
+					else if (result == ALLOCATION_ERROR) {
+						printf("Error: Memory allocation failed\n");
+					}
+
+					// Continue reading input until a negative number is entered.
+					scanf_s("%d", &input);
 				}
 
-				//		Finally, it will call printToStdout() to print the resulting set
-				//		(after the last element has been added) to stdout to the screen.
+				// Finally, it will call printToStdout() to print the resulting set
+				// (after the last element has been added) to stdout to the screen.
+				printf("Final ordered set = ");
 				printToStdout(SetsArray[index]);
+				break;
 			
 
 			case 4:
@@ -148,52 +158,79 @@ int main() {
 				printf("\nEnter three indeces i1, i2 and i3 to be used: ");
 				scanf_s("%d %d %d", &index1, &index2, &index3);
 
-				//		Then it calls function setIntersection(s1, s2) to obtain the intersection of sets i1 and i2 
-				setIntersection(SetsArray[index1], SetsArray[index2], SetsArray[index3]);
-				//		and stores the resulting set at index i3.Finally, it prints the resulting set to stdout.
-				printToStdout(SetsArray[index3]);
-				
+				// Perform the intersection of sets i1 and i2
+				orderedIntSet* intersection = setIntersection(SetsArray[index1], SetsArray[index2]);
+
+				// Store the resulting set in SetsArray at index i3
+				SetsArray[index3] = intersection;
+
+				// Print the resulting intersection set
+				printf("Intersection of set %d and set %d: ", index1, index2);
+				printToStdout(intersection);
 				break;
 
 			case 6:
 
 				// 6) Set Union
-				//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
-				printf("\nEnter three indeces i1, i2 and i3 to be used: ");
+				// This option prompts the user to enter three indices i1, i2, and i3 for three sets in SetsArray
+				printf("\nEnter three indices i1, i2 and i3 to be used: ");
 				scanf_s("%d %d %d", &index1, &index2, &index3);
 
-				//		Then it calls function setUnion(s1, s2) to obtain the union of sets i1 and i2 and stores 
-				//		the resulting set at index i3.
-				SetsArray[index3] = setUnion(index1, index2);
+				// Check if the sets at indices i1 and i2 exist and are properly initialized
+				if (SetsArray[index1] == NULL || SetsArray[index2] == NULL) {
+					if (SetsArray[index1] == NULL) {
+						printf("Error: No ordered set available at index %d\n", index1);
+					}
+					if (SetsArray[index2] == NULL) {
+						printf("Error: No ordered set available at index %d\n", index2);
+					}
+				}
+				else {
+					// Call setUnion to obtain the union of sets i1 and i2
+					SetsArray[index3] = setUnion(SetsArray[index1], SetsArray[index2]);
 
-				//		Finally, it prints the resulting set to stdout
-				printf("Union of sets %d and %d: ", index1, index2);
-				printToStdout(SetsArray[index3]);
-				printf("\n");
-				
+					// Print the resulting set
+					if (SetsArray[index3] != NULL) {
+						printf("Union of sets %d and %d: ", index1, index2);
+						printToStdout(SetsArray[index3]);
+						printf("\n");
+					}
+					else {
+						printf("Error: Failed to compute set union\n");
+					}
+				}
+
 				break;
 
 			case 7:
-
-
 				// 7) Set Difference
+				printf("\nEnter two indices i1 and i2 to perform set difference (i1 - i2): ");
+				scanf_s("%d %d", &index1, &index2);
 
-				//		This option prompts the user to enter three indices i1, i2 and i3 for three sets in SetsArray.
-				printf("\nEnter three indeces i1, i2 and i3 to be used: ");
-				scanf_s("%d %d %d", &index1, &index2, &index3);
+				// Check if sets at these indices exist
+				if (SetsArray[index1] == NULL || SetsArray[index2] == NULL) {
+					// Print error if either of the sets is NULL
+					if (SetsArray[index1] == NULL) {
+						printf("Error: No ordered set available at index %d. Cannot perform set difference.\n", index1);
+					}
+					if (SetsArray[index2] == NULL) {
+						printf("Error: No ordered set available at index %d. Cannot perform set difference.\n", index2);
+					}
+				}
+				else {
+					// Call setDifference to perform the set difference
+					DoubleLinkedList* resultSet = setDifference(SetsArray[index1], SetsArray[index2]);
 
-				//		Then it calls function setDifference(s1,s2) to obtain the difference of sets i1 and i2
-				//		(make sure to obtain i1 − i2 and not i2 − ii) and stores the resulting set at index i3.
-				orderedIntSet* difference = setDifference(SetsArray[index1], SetsArray[index2]);
-				SetsArray[index3] = difference;
-
-				//		Finally, it prints the resulting set to stdout.
-				printToStdout(SetsArray[index3]);
-				break;
-
-				printf("\nEnter three indeces i1, i2 and i3 to be used: ");
-				scanf_s("%d %d %d", &index1, &index2, &index3);
-
+					// If resultSet is not NULL, print the resulting set
+					if (resultSet != NULL) {
+						printf("Set difference result (set%d - set%d): ", index1, index2);
+						printToStdout(resultSet);
+						printf("\n");
+					}
+					else {
+						printf("Error: Set difference operation failed.\n");
+					}
+				}
 				break;
 
 			case 8:
@@ -207,9 +244,6 @@ int main() {
 				printf("\nInvalid input\n");
 				break;
 		}
-
-		printf("\nPress Enter to continue\n");
-
 		// clear buffer
 		scanf_s("*c");
 
