@@ -14,13 +14,10 @@ typedef struct List {
     dllNode* head;    // Pointer to the head node
     dllNode* tail;    // Pointer to the tail node
     dllNode* current; // Pointer to the current node
-    int size;
 } DoubleLinkedList;
 
 typedef struct orderedIntSet {
-    dllNode* head;
-    dllNode* tail;
-    dllNode* current;
+    DoubleLinkedList* list;
     int size;
 }orderedIntSet;
 
@@ -48,6 +45,6 @@ enum ReturnValue addElement(DoubleLinkedList* s, int elem);
 enum ReturnValue removeElement(DoubleLinkedList* s, int elem);
 
 void setIntersection(orderedIntSet* s1, orderedIntSet* s2, orderedIntSet* inter);
-orderedIntSet* setUnion(orderedIntSet* s1, orderedIntSet* s2);
+void setUnion(orderedIntSet* s1, orderedIntSet* s2, orderedIntSet* uniset);
 DoubleLinkedList* setDifference(DoubleLinkedList* s1, DoubleLinkedList* s2);
 orderedIntSet* printToStdout(orderedIntSet* s);

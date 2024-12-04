@@ -164,7 +164,7 @@ int main() {
 
 				//		Then it calls function setUnion(s1, s2) to obtain the union of sets i1 and i2 and stores 
 				//		the resulting set at index i3.
-				SetsArray[index3] = setUnion(index1, index2);
+				setUnion(index1, index2, index3);
 
 				//		Finally, it prints the resulting set to stdout
 				printf("Union of sets %d and %d: ", index1, index2);

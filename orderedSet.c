@@ -33,8 +33,7 @@ orderedIntSet* createOrderedIntSet() {
 		return NULL;
 	} else {
 		// set in not null. therefore wer can access its memebers
-		set->head = NULL;
-		set->tail = NULL;
+		set->list = createDoubleLinkedList();
 		set->size = 0;
 		return set;
 	}
@@ -53,11 +52,7 @@ orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
 	}
 	else {
 		// delete the whole list except head and tail
-		dllNode* current = s->head->successor;
-		while (current != s->tail) {
-			free(current);
-			current = current->successor;
-		}
+		deleteDoubleLinkedList(s->list);
 		free(s);
 		return NULL;
 	}
@@ -72,55 +67,28 @@ orderedIntSet* deleteOrderedIntSet(orderedIntSet* s) {
  * @param elem The integer element to add to the set. 
  * @return Enumeration value indicating the operation's outcome.
 */
-enum ReturnValue addElement(DoubleLinkedList* s, int elem) {
-
-    // checking for duplicates
-    dllNode* current = s->head->successor;
-    while (current != s->tail) {
-        if (current->d == elem) {
-            return NUMBER_ALREADY_IN_SET;
-        }
-        current = current->successor;
-    }
-
-    // Create a new node for the element
-    dllNode* newNode = (dllNode*)malloc(sizeof(dllNode));
-	if (newNode == NULL) {
-		return ALLOCATION_ERROR;
-	}
-    newNode->d = elem;
+enum ReturnValue addElement(orderedIntSet* s, int elem) {
 	
-	// inserting node into list
-	insertAfter(s, elem);
+	// Find first element
+	gotoHead(s->list);
+	gotoNextNode(s->list);
 
-    //newNode->successor = NULL;
-    //newNode->predecessor = NULL;
-
-    //// If the list is empty
-    //if (s->head == NULL) {
-    //    s->head = newNode;
-    //    s->tail = newNode;
-    //}
-    //// If inserting at the end
-    //else if (current == NULL) {
-    //    s->tail->successor = newNode;
-    //    newNode->predecessor = s->tail;
-    //    s->tail = newNode;
-    //}
-    //// If inserting in the middle
-    //else {
-    //    if (current->predecessor) {
-    //        current->predecessor->successor = newNode;
-    //    } else {
-    //        s->head = newNode;
-    //    }
-    //    newNode->predecessor = current->predecessor;
-    //    newNode->successor = current;
-    //    current->predecessor = newNode;
-    //}
-
-    //s->size++;
-    //return NUMBER_ADDED;
+	// Go through set
+	while (s->list->current =! s->list->tail) {
+		
+		
+		if (elem < s->list->current->d) {
+			gotoNextNode(s->list);
+		} else if (elem == s->list->current->d) {
+			printf("\nElement already in set\n");
+			return;
+		} else {
+			insertBefore(s->list, elem);
+			return;
+		}
+	}
+	
+    
 }
 /**
  * @brief Removes an element from the oredered set.
@@ -131,17 +99,20 @@ enum ReturnValue addElement(DoubleLinkedList* s, int elem) {
  * @param elem The integer element to remove from the set. 
  * @return Enumeration value indicating the operation's outcome.
 */
-enum ReturnValue removeElement(DoubleLinkedList* s, int elem) {
+enum ReturnValue removeElement(orderedIntSet* s, int elem) {
+
+	// Go to first element
+	gotoHead(s->list);
+	gotoNextNode(s->list);
 
 	// find the element
-	dllNode* current = s->head->successor;
-	while (current != s->tail) {
-		if (current->d == elem) {
+	while (s->list->current =! s->list->tail) {
+		if (s->list->current == elem) {
 			// remove the element
 			deleteCurrentNode(s);
 			return NUMBER_REMOVED;
 		}
-		current = current->successor;
+		gotoNextNode(s->list);
 	}
 	return NUMBER_NOT_IN_SET;
 }
@@ -160,30 +131,30 @@ void setIntersection(orderedIntSet* s1, orderedIntSet* s2, orderedIntSet* inter)
 	
 
 	//Find first element of set 1
-	s1 = gotoHead(s1);
-	s1 = gotoNextNode(s1);
+	gotoHead(s1);
+	gotoNextNode(s1);
 
 	// for each node in set1
-	while (s1->current != s1->tail) {
+	while (s1->list->current != s1->list->tail) {
 
 		//Find first element of set 2
-		s2 = gotoHead(s2);
-		s2 = gotoNextNode(s2);
+		gotoHead(s2);
+		gotoNextNode(s2);
 
 		// For each node in set 2
-		while (s2->current != s2->tail) {
+		while (s2->list->current != s2->list->tail) {
 
 			// If set i1 == set i2
-			if (s1->current->d == s2->current->d) {
+			if (s1->list->current->d == s2->list->current->d) {
 
 				// add node i to interset
-				insertAfter(inter, s2->current->d);
+				insertAfter(inter, s2->list->current->d);
 			}
 
-			s2 = gotoNextNode(s2);
+			gotoNextNode(s2);
 		}
 
-		s1 = gotoNextNode(s1);
+		gotoNextNode(s1);
 	}
 	return;
 }
@@ -197,58 +168,56 @@ void setIntersection(orderedIntSet* s1, orderedIntSet* s2, orderedIntSet* inter)
  * @param s2 pointer to the second set.
  * @return A pointer to the resulting set containing the union.
 */
-orderedIntSet* setUnion(orderedIntSet * s1, orderedIntSet * s2) {
+void setUnion(orderedIntSet* s1, orderedIntSet* s2, orderedIntSet* uniset) {
 
-	// Create uniset
-	orderedIntSet* uniset = createOrderedIntSet();
 
 	//Find first element of set 1
-	s1 = gotoHead(s1);
-	s1 = gotoNextNode(s1);
+	gotoHead(s1);
+	gotoNextNode(s1);
 
 	//for each node in set1
-	while (s1->current != s1->tail) {
+	while (s1->list->current != s1->list->tail) {
 
 		// Add node to uniset
-		uniset = insertAfter(uniset, s1->current->d);
-		s1 = gotoNextNode(s1);
+		insertAfter(uniset, s1->list->current->d);
+		gotoNextNode(s1);
 	}
 
 	// Find first element of set2
-	s2 = gotoHead(s2);
-	s2 = gotoNextNode(s2);
+	gotoHead(s2);
+	gotoNextNode(s2);
 
 	// for each node in set2
-	while (s2->current != s2->tail) {
+	while (s2->list->current != s2->list->tail) {
 
 		// for each node in uniset
-		while (uniset->current != uniset->tail) {
+		while (uniset->list->current != uniset->list->tail) {
 
 			// if uniseti < set2i
-			if (uniset->current->d < s2->current->d) {
+			if (uniset->list->current->d < s2->list->current->d) {
 
 				// go to next node
-				uniset = gotoNextNode(uniset);
+				gotoNextNode(uniset);
 
 				// if uniseti == set2i
 			}
-			else if (uniset->current->d == s2->current->d) {
+			else if (uniset->list->current->d == s2->list->current->d) {
 
 				// go to tail
-				uniset = gotoTail(uniset);
+				gotoTail(uniset);
 
 				// if uniseti > set2i
 			}
 			else {
 
 				//add node before current and go to tail
-				uniset = insertBefore(uniset, s2->current->d);
-				uniset = gotoTail(uniset);
+				insertBefore(uniset, s2->list->current->d);
+				gotoTail(uniset);
 			}
 		}
-		s2 = gotoNextNode(s2);
+		gotoNextNode(s2);
 	}
-	return uniset;
+	return;
 }
 /**
  * @brief Computes the difference of two sets.
@@ -324,8 +293,8 @@ orderedIntSet* printToStdout(orderedIntSet* s) {
 	s = gotoNextNode(s);
 
 	// for each node in set
-	while (s->current->successor != s->tail) {
-		printf("%i,", s->current->d);
+	while (s->list->current->successor != s->list->tail) {
+		printf("%i,", s->list->current->d);
 		s = gotoNextNode(s);
 	}
 	printf("}");
