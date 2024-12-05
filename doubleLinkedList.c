@@ -2,14 +2,14 @@
  * @file   doubleLinkedList.c
  * @brief  Implementation of double linked list operations
  *
- * @author Stanislav Simanovich
- * @author Calum Breen
- * @author Emilia Hildebrandt
- * @author Tiernan O'Shaughnessy
- * @author Jordi Roca
- * @author Bengisu Fansa
+ * @author Stanislav Simanovich		23366109
+ * @author Calum Breen				23368357
+ * @author Emilia Hildebrandt		23356421
+ * @author Tiernan O'Shaughnessy	23356642
+ * @author Jordi Roca				24277215
+ * @author Bengisu Fansa			24221104
 
- * @date   11 November 2024
+ * @date 05 December 2024
  *********************************************************************/
 
 #include <stdlib.h>
