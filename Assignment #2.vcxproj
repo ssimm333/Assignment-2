@@ -133,7 +133,9 @@
     <ClCompile Include="orderedSet.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="enum.h" />
     <ClInclude Include="functionDeclarations.h" />
+    <ClInclude Include="structures.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
