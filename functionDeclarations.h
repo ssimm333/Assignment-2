@@ -1,53 +1,32 @@
 #pragma once
+#include <stdio.h>
+#include <stdlib.h>
+#include "structures.h"
+#include "enum.h"
 
-// Typedef for data type
-typedef int data;
+//function declarations for the linked list
+dllist* createList();
+void deleteList(dllist* list);
+data* getData(dllist* list);
+void gotoNextNode(dllist* list);
+void gotoPrevNode(dllist* list);
+void gotoHead(dllist* list);
+void gotoTail(dllist* list);
+enum ReturnValue insertAfter(dllist* list, data newdata);
+enum ReturnValue insertBefore(dllist* list, data newdata);
+enum ReturnValue deleteCurrent(dllist* list);
 
-// Forward declarations of structs
-typedef struct Node {
-    data d;
-    struct Node* successor;  // Pointer to the next node
-    struct Node* predecessor; // Pointer to the previous node
-} dllNode;
+// function declarations for the ordered set
+OrderedSet* createOrderedSet();
+void deleteOrderedSet(OrderedSet* set);
+enum ReturnValue addElement(OrderedSet* set, data newdata);
+enum ReturnValue removeElement(OrderedSet* set, int elem);
+OrderedSet* setIntersection(OrderedSet* set1, OrderedSet* set2);
+OrderedSet* setUnion(OrderedSet* set1, OrderedSet* set2);
+OrderedSet* setDifference(OrderedSet* set1, OrderedSet* set2);
 
-typedef struct List {
-    dllNode* head;    // Pointer to the head node
-    dllNode* tail;    // Pointer to the tail node
-    dllNode* current; // Pointer to the current node
-    int size;
-} DoubleLinkedList;
+// print the list
+void printToStdout(dllist* list);
 
-typedef struct orderedIntSet {
-    dllNode* head;
-    dllNode* tail;
-    dllNode* current;
-    int size;
-}orderedIntSet;
-
-enum ReturnValue {
-    NUMBER_ALREADY_IN_SET,
-    NUMBER_NOT_IN_SET,
-    NUMBER_ADDED,
-    NUMBER_REMOVED,
-    ALLOCATION_ERROR
-};
-
-DoubleLinkedList* createDoubleLinkedList();
-DoubleLinkedList* deleteDoubleLinkedList(DoubleLinkedList* list);
-DoubleLinkedList* getData(DoubleLinkedList* list);
-DoubleLinkedList* gotoNextNode(DoubleLinkedList* list);
-DoubleLinkedList* gotoPreviousNode(DoubleLinkedList* list);
-DoubleLinkedList* gotoHead(DoubleLinkedList* list);
-DoubleLinkedList* gotoTail(DoubleLinkedList* list);
-DoubleLinkedList* insertAfter(DoubleLinkedList* list, int newdata);
-DoubleLinkedList* insertBefore(DoubleLinkedList* list, int newdata);
-DoubleLinkedList* deleteCurrentNode(DoubleLinkedList* list);
-orderedIntSet* createOrderedIntSet();
-orderedIntSet* deleteOrderedIntSet(orderedIntSet* s);
-enum ReturnValue addElement(DoubleLinkedList* s, int elem);
-enum ReturnValue removeElement(DoubleLinkedList* s, int elem);
-
-void setIntersection(orderedIntSet* s1, orderedIntSet* s2, orderedIntSet* inter);
-orderedIntSet* setUnion(orderedIntSet* s1, orderedIntSet* s2);
-DoubleLinkedList* setDifference(DoubleLinkedList* s1, DoubleLinkedList* s2);
-orderedIntSet* printToStdout(orderedIntSet* s);
+void printMenu();
+int test();
