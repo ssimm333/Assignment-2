@@ -17,8 +17,6 @@
 #include "structures.h"
 #include "enum.h"
 
-#include "enum.h"
-
  // create a list
 dllist* createList() {
 	// allocate memory for the list
