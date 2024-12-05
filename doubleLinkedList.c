@@ -16,8 +16,15 @@
 #include <stdlib.h>
 #include "functionDeclarations.h"
 
-// create a new empty double linked list
-// consisting of only a head and tail
+/**
+ * @brief This function creates a double linked list
+ * 
+ * @details The function allocates memory for a double 
+ *          linked list consisting of only a head and tail
+ *          and initialises each of its fields. 
+ * 
+ * @return Empty double linked list
+ */
 DoubleLinkedList* createDoubleLinkedList() {
 
 	// Pre: None
@@ -43,7 +50,17 @@ DoubleLinkedList* createDoubleLinkedList() {
 	return doubleLinkedList;
 }
 
-// delete a list, including all its elements
+/**
+ * @brief This function deletes a double linked list
+ *
+ * @param list
+ *
+ * @details The function, once given a valid list, goes
+ *          through the list and deletes each node and
+ *          frees the list structure. 
+ *  
+ * @return NULL
+ */
 DoubleLinkedList* deleteDoubleLinkedList(DoubleLinkedList* list) {
 
 	// Pre: valid double linked list exists
@@ -68,7 +85,17 @@ DoubleLinkedList* deleteDoubleLinkedList(DoubleLinkedList* list) {
 	return NULL;
 }
 
-// returns the data associated with current node
+/**
+ * @brief This function finds the data for a specific node.
+ * 
+ * @param list
+ * 
+ * @details The function returns the data associated 
+ *          with the current node, so long as it is
+ *          part of a valid double linked list.
+ * 
+ * @return Data of current node
+ */
 DoubleLinkedList* getData(DoubleLinkedList* list) {
 
 	// Pre: valid double linked list exists
@@ -81,7 +108,17 @@ DoubleLinkedList* getData(DoubleLinkedList* list) {
 	return list->current->d;
 }
 
-// sets current node to the successor of current
+/**
+ * @brief This function sets the current node to the successor of the current node
+ * 
+ * @param list
+ * 
+ * @details The function, once given a valid list, 
+ *          sets the current node to the successor 
+ *          of the current node
+ * 
+ * @return Current node
+ */
 DoubleLinkedList* gotoNextNode(DoubleLinkedList* list) {
 
 	// Pre: valid double linked list exists
@@ -98,11 +135,21 @@ DoubleLinkedList* gotoNextNode(DoubleLinkedList* list) {
 	return list->current;
 }
 
-// sets current node to predeccessor of current
+/**
+ * @brief This function sets the current node to the predecessor of the current node
+ * 
+ * @param list
+ * 
+ * @details The function, once given a valid list, 
+ *          sets the current node to the predecessor 
+ *          of the current node
+ * 
+ * @return Current node
+ */
 DoubleLinkedList* gotoPreviousNode(DoubleLinkedList* list) {
 	// Pre: valid double linked list exists
 	if (list == NULL) {
-		printf("Error: Invalid doube linked list\n");
+		printf("Error: Invalid double linked list\n");
 		return NULL;
 	}
 
@@ -114,7 +161,16 @@ DoubleLinkedList* gotoPreviousNode(DoubleLinkedList* list) {
 	return list->current;
 }
 
-// sets current node to head
+/**
+ * @brief This function sets the current node to the head
+ * 
+ * @param list
+ * 
+ * @details The function, once given a valid list,
+ *          sets the current node to the head of the list
+ * 
+ * @return Current node
+ */
 DoubleLinkedList* gotoHead(DoubleLinkedList* list) {
 	// Pre: valid double linked list exists
 	if (list == NULL) {
@@ -127,7 +183,17 @@ DoubleLinkedList* gotoHead(DoubleLinkedList* list) {
 	return list->current;
 }
 
-// sets current node to tail
+
+/**
+ * @brief This function sets the current node to the tail
+ * 
+ * @param list
+ * 
+ * @details The function, once given a valid list,
+ *          sets the current node to the tail of the list
+ * 
+ * @return Current node
+ */
 DoubleLinkedList* gotoTail(DoubleLinkedList* list) {
 	// Pre: valid double linked list exists
 	if (list == NULL) {
@@ -140,8 +206,18 @@ DoubleLinkedList* gotoTail(DoubleLinkedList* list) {
 	return list->current;
 }
 
-// creates a new node, associates newdata with it and 
-// inserts it after the current node.
+/**
+ * @brief This function creates a new node
+ * 
+ * @param list
+ * @param newdata
+ * 
+ * @details The function, once given a valid list and valid data,
+ *          creates a new node, associates newdata with it and 
+ *          inserts it after the current node.
+ * 
+ * @return Double linked list
+ */
 DoubleLinkedList* insertAfter(DoubleLinkedList* list, data newdata) {
 	// Pre: valid double linked list exists and newdata is valid data
 	if (list == NULL || newdata == NULL) {
@@ -174,8 +250,18 @@ DoubleLinkedList* insertAfter(DoubleLinkedList* list, data newdata) {
 	}
 }
 
-// creates a new node, associates newdata with it and inserts it 
-// before the current node.
+/**
+ * @brief This function creates a new node
+ * 
+ * @param list
+ * @param newdata
+ * 
+ * @details The function, once given a valid list and valid data,
+ *          creates a new node, associates newdata with it and 
+ *          inserts it before the current node.
+ * 
+ * @return Double linked list
+ */
 DoubleLinkedList* insertBefore(DoubleLinkedList* list, data newdata) {
 	// Pre: valid double linked list exists and newdata is valid data
 	if (list == NULL ||  newdata == NULL) {
@@ -212,6 +298,16 @@ DoubleLinkedList* insertBefore(DoubleLinkedList* list, data newdata) {
 	}
 }
 
+/**
+ * @brief This function deletes the current node.
+ * 
+ * @param list
+ * 
+ * @details The function, once given a valid list, 
+ *          deletes the current node from the list
+ * 
+ * @return Double linked list
+ */
 DoubleLinkedList* deleteCurrentNode(DoubleLinkedList* list) {
 	// Pre: valid double linked list exists
 	if (list == NULL) {
