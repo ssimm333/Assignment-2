@@ -1,6 +1,6 @@
 /*****************************************************************//**
- * @file	main.c
- * @brief	main file used to implement the text menu driven application
+ * @file	orderedSet.c
+ * @brief	Function definitions for ordered set operations, such as creating and deleting ordered sets.
  *
  * @author Stanislav Simanovich		23366109
  * @author Calum Breen				23368357
@@ -8,7 +8,6 @@
  * @author Tiernan O'Shaughnessy	23356642
  * @author Jordi Roca				24277215
  * @author Bengisu Fansa			24221104
- *
  *
  * @date 05 December 2024
  *********************************************************************/
@@ -18,7 +17,14 @@
 #include "functionDeclarations.h"
 #include "enum.h"
 
- // create ordered set
+/**
+ * @brief Allocates memory and creates an ordered set.
+ * 
+ * Sets appropriate pointers for a empty set consisting only of a head and tail node.
+ * Size is set to 0 to indicate that the set is empty.
+ * 
+ * @return enumeration value indicating success or failure of the operation or the set itself if memory allocation was successful.
+ */
 OrderedSet* createOrderedSet() {
 	// allocate memory
 	OrderedSet* set = (OrderedSet*)malloc(sizeof(OrderedSet));
@@ -57,7 +63,14 @@ OrderedSet* createOrderedSet() {
 	return set;
 }
 
-// delete the ordered set
+/**
+ * @brief Frees memory allocated for the ordered set.
+ * 
+ * The head and tail nodes are deleted, and any other dynamically allocated nodes.
+ * Set is freed from memory.
+ * 
+ * @param set The ordered set to be deleted.
+ */
 void deleteOrderedSet(OrderedSet* set) {
 	// check valid set exists
 	if (set == NULL) {
@@ -72,8 +85,15 @@ void deleteOrderedSet(OrderedSet* set) {
 	free(set);
 }
 
-// insert new node and maintain ascending order and avoiding duplicates
-// insert new node and maintain ascending order and avoiding duplicates
+/**
+ * @brief Adds an element to the ordered set.
+ * 
+ * Checks if the element is already in the set. If not, it is put into the correct position 
+ * as to maintain ascending order of all the elements within the list.
+ * 
+ * @param set The ordered set to add the element to.
+ * @param newdata The data to be added to the set, of an integer value.
+ */
 enum ReturnValue addElement(OrderedSet* set, data newdata) {
 	// check valid set exists
 	if (set == NULL) {
@@ -103,6 +123,17 @@ enum ReturnValue addElement(OrderedSet* set, data newdata) {
 }
 
 
+/**
+ * @brief Removes an element from the ordered set.
+ * 
+ * Checks if the element is in the set. If so, it is removed from the set.
+ * Otherwise, the function returns a value indicating that the element is not in the set.
+ * 
+ * @param set The ordered set to remove the element from.
+ * @param elem The element to be removed from the set, of an integer value.
+ * 
+ * @return Enumeration value indicating if the element was removed or doesnt exist..
+ */
 enum ReturnValue removeElement(OrderedSet* set, int elem) {
 	// check valid set exists
 	if (set == NULL) {
@@ -130,6 +161,14 @@ enum ReturnValue removeElement(OrderedSet* set, int elem) {
 	}
 }
 
+/**
+ * @brief Returns the intersection of two ordered sets. ie: the common elements .
+ * 
+ * @param set1 The first set
+ * @param set2 The second set
+ * 
+ * @return A new ordered set with the common elements of set1 and set2.
+ */
 OrderedSet* setIntersection(OrderedSet* set1, OrderedSet* set2) {
 
 	OrderedSet* interset = createOrderedSet();
@@ -164,7 +203,14 @@ OrderedSet* setIntersection(OrderedSet* set1, OrderedSet* set2) {
 	return interset;
 }
 
-// print all the elements in each set, avoiding duplicates, and maintaining ascending order 
+/**
+ * @brief Returns the union of two ordered sets, ie: the elements of both sets, with no duplicates.
+ * 
+ * @param set1 The first set
+ * @param set2 The second set
+ * 
+ * @return A new ordered set with the union of set1 and set2
+ */
 OrderedSet* setUnion(OrderedSet* set1, OrderedSet* set2) {
 	OrderedSet* unionset = createOrderedSet();
 
@@ -191,7 +237,14 @@ OrderedSet* setUnion(OrderedSet* set1, OrderedSet* set2) {
 	return unionset;
 }
 
-// print all the elements in set1 that are not in set2
+/**
+ * @brief Returns the difference of two ordered sets, ie: the elements of set1 that are not in set2.
+ * 
+ * @param set1 first set
+ * @param set2 second set
+ * 
+ * @return a new ordered set with the difference of set1 and set2
+ */
 OrderedSet* setDifference(OrderedSet* set1, OrderedSet* set2) {
 	OrderedSet* diffset = createOrderedSet();
 
@@ -225,8 +278,14 @@ OrderedSet* setDifference(OrderedSet* set1, OrderedSet* set2) {
 	return diffset;
 }
 
-// print the ordered set in format {num1,num2,...numn}
-// empty set is denotes as {}
+/**
+ * @brief Prints the ordered set to stdout.
+ * 
+ * If the set is empty, it prints "{}".
+ * Otherwise it prints "{element1,element2,...,elementn}"
+ * 
+ * @param set which is to be printed
+ */
 void printToStdout(OrderedSet* set) {
 	if (set == NULL) {
 		printf("{}");
@@ -254,12 +313,23 @@ void printToStdout(OrderedSet* set) {
 	printf("%d}", set->current->d);
 }
 
-// sort the set into ascending order
+/**
+ * @brief Sorts the ordered set into ascending order.
+ * 
+ * @param set which is to be ordered
+ * 
+ * @return the sorted ordered set
+ */
 OrderedSet* sortSet(OrderedSet* set) {
 	// create 
 	createOrderedSet();
 }
 
+/**
+ * @brief Prints the menu.
+ * 
+ * Menu is printed to stdout for the user.
+ */
 void printMenu() {
 	printf("\nChoose from the following:");
 	printf("\n1) Create empty ordered set");

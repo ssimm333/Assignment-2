@@ -19,6 +19,13 @@
 #include "enum.h"
 #define MAX_SETS 10
 
+/**
+ * @brief main function.
+ * 
+ * Prints the menu and takes user input.
+ * 
+ * @return EXIT_SUCCESS upon completion (0)
+ */
 int main() {
 	OrderedSet* setsArray[MAX_SETS] = { NULL };
 
