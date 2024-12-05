@@ -18,7 +18,14 @@
 #include "structures.h"
 #include "enum.h"
 
- // create a list
+/**
+ * @brief Creates a new double linked list.
+ * 
+ * @details Allocates memory for the list and its head 
+ *          and tail nodes, and initializes their pointers.
+ * 
+ * @return A pointer to the newly created double-linked list, or NULL if memory allocation fails.
+ */
 dllist* createList() {
 	// allocate memory for the list
 	dllist* list = (dllist*)malloc(sizeof(dllist));
@@ -54,7 +61,14 @@ dllist* createList() {
 	list->current = list->head;
 }
 
-// delete a list
+
+/**
+ * @brief Deletes a double-linked list.
+ *
+ * @details Frees the memory allocated for the list and its nodes.
+ *
+ * @param list The double linked list to be deleted.
+ */
 void deleteList(dllist* list) {
 	if (list == NULL) {
 		return;
@@ -68,7 +82,16 @@ void deleteList(dllist* list) {
 	}
 	free(list);
 }
-// get data at current node
+
+/**
+ * @brief Retrieves the data at the current node in the list.
+ *
+ * @details Returns a pointer to the data at the current node.
+ *
+ * @param list The double-linked list.
+ * 
+ * @return A pointer to the data at the current node, or NULL if the list is empty.
+ */
 data* getData(dllist* list) {
 	// ensure valid linked list exists
 	if (list == NULL) {
@@ -80,7 +103,14 @@ data* getData(dllist* list) {
 	}
 }
 
-// go to the next node
+/**
+ * @brief Moves to the next node in the list. 
+ *
+ * @details Updates the current node pointer to point to 
+ *          the next node in the list.
+ *
+ * @param list The double-linked list.
+ */
 void gotoNextNode(dllist* list) {
 	// ensure valid linked list exists
 	if (list == NULL) {
@@ -91,7 +121,14 @@ void gotoNextNode(dllist* list) {
 	}
 }
 
-// go to the previous node
+/**
+ * @brief Moves to the previous node in the list.
+ *
+ * @details Updates the current node pointer to point to 
+ *          the previous node in the list.
+ *
+ * @param list The double-linked list.
+ */
 void gotoPrevNode(dllist* list) {
 	// ensure valid linked list exists
 	if (list == NULL) {
@@ -102,7 +139,14 @@ void gotoPrevNode(dllist* list) {
 	}
 }
 
-// go to head
+/**
+ * @brief Moves to the head of the list.
+ *
+ * @details Updates the current node pointer to point to 
+ *          the head of the list.
+ *
+ * @param list The double-linked list.
+ */
 void gotoHead(dllist* list) {
 	// ensure valid linked list exists
 	if (list == NULL) {
@@ -113,7 +157,14 @@ void gotoHead(dllist* list) {
 	}
 }
 
-// go to tail
+/**
+ * @brief Moves to the tail of the list.
+ *
+ * @details Updates the current node pointer to point to 
+ *          the tail of the list.
+ *
+ * @param list The double-linked list.
+ */
 void gotoTail(dllist* list) {
 	// ensure valid linked list exists
 	if (list == NULL) {
@@ -124,8 +175,18 @@ void gotoTail(dllist* list) {
 	}
 }
 
-
-// insert data after current node
+/**
+ * @brief Inserts data after the current node in the list.
+ *
+ * @details Allocates a new node, inserts it after 
+ *          the current node, and updates the list's pointers.
+ *
+ * @param1 list The double-linked list.
+ * 
+ * @param2 newdata The data to be inserted.
+ * 
+ * @return An allocation error if given an invalid list/node. 
+ */
 enum ReturnValue insertAfter(dllist* list, data newdata) {
 	dllNode* newNode = (dllNode*)malloc(sizeof(dllNode));
 	// ensure valid linked list exists
@@ -146,7 +207,18 @@ enum ReturnValue insertAfter(dllist* list, data newdata) {
 	list->current->next->prev = newNode;
 }
 
-// insert data before current node
+/**
+ * @brief Inserts data before the current node in the list.
+ *
+ * @details Allocates a new node, inserts it before
+ *          the current node, and updates the list's pointers.
+ *
+ * @param1 list The double-linked list.
+ *
+ * @param2 newdata The data to be inserted.
+ *
+ * @return An allocation error if given an invalid list/node.
+ */
 enum ReturnValue insertBefore(dllist* list, data newdata) {
 	dllNode* newNode = (dllNode*)malloc(sizeof(dllNode));
 	// ensure valid list exists
@@ -167,7 +239,18 @@ enum ReturnValue insertBefore(dllist* list, data newdata) {
 	list->current->prev->next = newNode;
 }
 
-// delete the current node from the list
+/**
+ * @brief Deletes the current node from the list.
+ *
+ * @details Removes the current node from the list and 
+ *          updates the list's pointers.If the current node 
+ *          is the head or tail of the list, the list's head 
+ *          or tail is updated accordingly.
+ *
+ * @param list The double-linked list.
+ * 
+ * @return An allocation error if given an invalid list
+ */
 enum ReturnValue deleteCurrent(dllist* list) {
 	// ensure valid list exists
 	if (list == NULL) {
