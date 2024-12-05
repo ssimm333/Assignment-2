@@ -18,7 +18,6 @@
 #include "functionDeclarations.h"
 #include "enum.h"
 
-
  // create ordered set
 OrderedSet* createOrderedSet() {
 	// allocate memory
